@@ -1,0 +1,2501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biometric-Style Attendance Terminal</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A10F1C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root{
+  --bg:#0B0F13;
+  --bg-2:#0F151A;
+  --surface:#161D23;
+  --surface-2:#1E272E;
+  --surface-3:#26313A;
+  --border:#2A343C;
+  --text:#EAEEF1;
+  --text-dim:#8D9AA5;
+  --text-faint:#5E6A73;
+  --accent:#33E6A0;
+  --accent-dim:#1D8F63;
+  --accent-glow:rgba(51,230,160,.35);
+  --info:#5B8CFF;
+  --warn:#F5B942;
+  --danger:#FF6B5E;
+  --rest:#7C8B99;
+  --leave:#8C7CFF;
+  --radius:14px;
+  --radius-sm:9px;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --font-display:'Sora',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+[data-theme="light"]{
+  --bg:#F3F5F6;
+  --bg-2:#EAEDEF;
+  --surface:#FFFFFF;
+  --surface-2:#F5F7F8;
+  --surface-3:#EBEFF1;
+  --border:#DDE3E7;
+  --text:#141A1F;
+  --text-dim:#5A6771;
+  --text-faint:#8A96A0;
+  --accent:#0FA36B;
+  --accent-dim:#0C8557;
+  --accent-glow:rgba(15,163,107,.25);
+  --shadow:0 10px 30px rgba(20,30,40,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:radial-gradient(1200px 800px at 80% -10%, rgba(51,230,160,.06), transparent 60%), var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;outline:none;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+label{display:block;font-size:12px;color:var(--text-dim);margin-bottom:5px;font-weight:500;letter-spacing:.02em}
+.field{margin-bottom:14px}
+.mono{font-family:var(--font-mono)}
+.hidden{display:none !important}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:8px}
+
+/* ============ LAYOUT ============ */
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:236px;flex:0 0 236px;background:var(--bg-2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:40;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 8px 22px}
+.brand-mark{
+  width:34px;height:34px;border-radius:10px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px var(--accent-glow);flex:0 0 auto;
+}
+.brand-mark svg{width:100%;height:100%}
+.brand-text{font-family:var(--font-display);font-weight:700;font-size:14.5px;letter-spacing:.01em;line-height:1.2}
+.brand-text span{display:block;font-family:var(--font-body);font-weight:500;font-size:10.5px;color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.nav{display:flex;flex-direction:column;gap:2px;flex:1}
+.nav-btn{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:var(--radius-sm);border:none;background:transparent;
+  color:var(--text-dim);font-size:13.5px;font-weight:500;text-align:left;transition:all .12s;
+}
+.nav-btn svg{width:17px;height:17px;flex:0 0 auto;opacity:.85}
+.nav-btn:hover{background:var(--surface-2);color:var(--text)}
+.nav-btn.active{background:var(--surface-2);color:var(--text)}
+.nav-btn.active{box-shadow:inset 3px 0 0 var(--accent)}
+.nav-foot{border-top:1px solid var(--border);padding-top:12px;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.theme-toggle{display:flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px;border:1px solid var(--border)}
+.theme-toggle button{flex:1;background:transparent;border:none;border-radius:999px;padding:6px 0;font-size:12px;color:var(--text-dim)}
+.theme-toggle button.active{background:var(--surface-3);color:var(--text)}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{
+  position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 26px;background:color-mix(in srgb, var(--bg) 80%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);
+}
+.topbar h1{font-family:var(--font-display);font-size:19px;font-weight:700}
+.topbar .sub{font-size:12.5px;color:var(--text-dim);margin-top:2px}
+.top-right{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);width:38px;height:38px;align-items:center;justify-content:center;color:var(--text)}
+.content{padding:22px 26px 60px;max-width:1320px;width:100%;margin:0 auto}
+
+/* ============ COMPONENTS ============ */
+.grid{display:grid;gap:16px}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1080px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.card-tight{padding:14px 16px}
+.stat-card{display:flex;flex-direction:column;gap:6px}
+.stat-label{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);font-weight:600}
+.stat-value{font-family:var(--font-display);font-size:26px;font-weight:700}
+.stat-sub{font-size:12px;color:var(--text-faint)}
+.section-title{font-family:var(--font-display);font-size:16px;font-weight:700;margin-bottom:4px}
+.section-desc{font-size:12.5px;color:var(--text-dim);margin-bottom:16px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.row-gap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);background:var(--surface-2);
+  color:var(--text);padding:10px 16px;border-radius:var(--radius-sm);font-size:13.5px;font-weight:600;transition:.12s;white-space:nowrap;
+}
+.btn:hover{background:var(--surface-3)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#04140D}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-danger{background:var(--danger);border-color:var(--danger);color:#280A08}
+.btn-ghost{background:transparent}
+.btn-sm{padding:6px 11px;font-size:12.5px;border-radius:8px}
+.btn-block{width:100%}
+.btn-lg{padding:16px 20px;font-size:15px;border-radius:12px}
+.icon-btn{width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--surface-2);color:var(--text-dim)}
+.icon-btn:hover{color:var(--text);background:var(--surface-3)}
+.icon-btn svg{width:14px;height:14px}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:600;letter-spacing:.01em}
+.badge-dot{width:6px;height:6px;border-radius:50%}
+.badge-present{background:rgba(51,230,160,.14);color:var(--accent)}
+.badge-present .badge-dot{background:var(--accent)}
+.badge-late{background:rgba(245,185,66,.15);color:var(--warn)}
+.badge-late .badge-dot{background:var(--warn)}
+.badge-absent{background:rgba(255,107,94,.14);color:var(--danger)}
+.badge-absent .badge-dot{background:var(--danger)}
+.badge-overtime{background:rgba(140,124,255,.16);color:var(--leave)}
+.badge-overtime .badge-dot{background:var(--leave)}
+.badge-leave{background:rgba(91,140,255,.15);color:var(--info)}
+.badge-leave .badge-dot{background:var(--info)}
+.badge-rest{background:rgba(124,139,153,.16);color:var(--rest)}
+.badge-rest .badge-dot{background:var(--rest)}
+.badge-incomplete{background:rgba(255,107,94,.1);color:var(--danger)}
+.badge-incomplete .badge-dot{background:var(--danger)}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);padding:9px 10px;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:600}
+td{padding:10px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr:hover{background:var(--surface-2)}
+.table-wrap{overflow-x:auto;border-radius:var(--radius-sm)}
+.empty-state{text-align:center;padding:46px 20px;color:var(--text-dim)}
+.empty-state svg{width:38px;height:38px;color:var(--text-faint);margin-bottom:10px}
+.empty-state .t{font-weight:600;color:var(--text);margin-bottom:4px}
+
+.search-input{position:relative;flex:1;min-width:200px}
+.tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:10px;border:1px solid var(--border);width:fit-content}
+.tab{padding:7px 14px;border:none;background:transparent;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text-dim)}
+.tab.active{background:var(--surface-3);color:var(--text)}
+
+/* ============ TERMINAL ============ */
+.terminal{
+  background:linear-gradient(160deg,var(--surface) 0%,var(--surface-2) 100%);
+  border:1px solid var(--border);border-radius:20px;padding:30px;position:relative;overflow:hidden;
+}
+.terminal::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 0%, var(--accent-glow), transparent 55%);opacity:.5;pointer-events:none}
+.term-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative}
+.term-greeting{font-family:var(--font-display);font-size:22px;font-weight:700}
+.term-emp{color:var(--text-dim);font-size:13.5px;margin-top:4px}
+.term-clock{text-align:right}
+.term-date{font-size:12.5px;color:var(--text-dim)}
+.term-time{font-family:var(--font-mono);font-size:30px;font-weight:600;letter-spacing:.02em;color:var(--accent)}
+.term-mid{display:flex;gap:22px;align-items:center;margin:26px 0;flex-wrap:wrap;position:relative}
+.scanner{
+  width:112px;height:112px;border-radius:50%;flex:0 0 auto;background:var(--surface-2);border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.scanner svg{width:52px;height:52px;color:var(--text-faint);transition:color .3s}
+.scanner.scanning{border-color:var(--accent)}
+.scanner.scanning svg{color:var(--accent)}
+.scanner.verified{border-color:var(--accent);box-shadow:0 0 0 6px var(--accent-glow)}
+.scanner.verified svg{color:var(--accent)}
+.scan-ring{position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--accent);opacity:0}
+.scanner.scanning .scan-ring{animation:ring 1.4s ease-out infinite}
+.scan-line{position:absolute;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);top:50%;opacity:0;filter:drop-shadow(0 0 6px var(--accent))}
+.scanner.scanning .scan-line{animation:sweep 1.2s ease-in-out infinite}
+@keyframes ring{0%{transform:scale(.85);opacity:.7}100%{transform:scale(1.35);opacity:0}}
+@keyframes sweep{0%{top:14%;opacity:0}20%{opacity:1}80%{opacity:1}100%{top:86%;opacity:0}}
+.term-status{flex:1;min-width:200px}
+.status-line{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--text-dim);font-weight:600;margin-bottom:8px}
+.status-value{font-family:var(--font-display);font-weight:700;font-size:18px;display:flex;align-items:center;gap:9px}
+.status-meta{margin-top:10px;display:flex;gap:22px;flex-wrap:wrap}
+.status-meta div span{display:block}
+.status-meta .k{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em}
+.status-meta .v{font-family:var(--font-mono);font-size:15px;font-weight:600;margin-top:2px}
+.term-actions{display:flex;gap:12px;position:relative;flex-wrap:wrap}
+.term-actions .btn{flex:1;min-width:150px}
+.empty-scan-msg{font-size:12.5px;color:var(--text-faint);margin-top:8px}
+
+/* ============ MODAL / TOAST ============ */
+.overlay{position:fixed;inset:0;background:rgba(6,9,11,.6);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:100%;max-width:480px;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow)}
+.modal.wide{max-width:680px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-family:var(--font-display);font-size:16px}
+.modal-body{padding:20px}
+.modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;border-top:1px solid var(--border)}
+.close-x{background:none;border:none;color:var(--text-dim);font-size:20px;line-height:1;padding:4px}
+
+#toastRoot{position:fixed;top:16px;right:16px;z-index:400;display:flex;flex-direction:column;gap:10px;max-width:320px}
+.toast{background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);animation:slidein .2s ease-out}
+.toast.warn{border-left-color:var(--warn)}
+.toast.err{border-left-color:var(--danger)}
+.toast .tt{font-weight:700;font-size:13px;margin-bottom:2px}
+.toast .ts{font-size:12px;color:var(--text-dim)}
+@keyframes slidein{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ============ WELCOME / ONBOARD ============ */
+.welcome{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.welcome-card{max-width:560px;width:100%;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:44px 34px;box-shadow:var(--shadow)}
+.welcome-mark{width:64px;height:64px;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 30px var(--accent-glow)}
+.welcome-mark svg{width:100%;height:100%}
+.welcome h1{font-family:var(--font-display);font-size:24px;margin-bottom:10px}
+.welcome p{color:var(--text-dim);margin-bottom:26px;font-size:14px}
+.welcome-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:22px}
+.step-dot{width:7px;height:7px;border-radius:50%;background:var(--surface-3)}
+.step-dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* ============ CALENDAR ============ */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{text-align:center;font-size:11px;color:var(--text-dim);font-weight:600;padding-bottom:4px}
+.cal-cell{aspect-ratio:1;border-radius:10px;border:1px solid var(--border);background:var(--surface-2);padding:6px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:.1s}
+.cal-cell:hover{border-color:var(--accent)}
+.cal-cell.empty{background:transparent;border:none;cursor:default}
+.cal-cell .d{font-size:12px;font-weight:600;color:var(--text-dim)}
+.cal-cell .dot{width:8px;height:8px;border-radius:50%;align-self:flex-end}
+.cal-cell.today{outline:2px solid var(--accent)}
+
+/* ============ MISC ============ */
+.divider{height:1px;background:var(--border);margin:16px 0}
+.pill-list{display:flex;gap:8px;flex-wrap:wrap}
+.pill{padding:5px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);font-size:12px;color:var(--text-dim);cursor:pointer;user-select:none}
+.pill.on{background:rgba(51,230,160,.14);color:var(--accent);border-color:transparent}
+.help-text{font-size:11.5px;color:var(--text-faint);margin-top:5px}
+.kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--text-dim)}
+.kv .v{font-family:var(--font-mono);font-weight:600}
+.warn-box{background:rgba(245,185,66,.1);border:1px solid rgba(245,185,66,.35);color:var(--warn);padding:12px 14px;border-radius:10px;font-size:12.5px;margin-bottom:14px}
+.danger-box{background:rgba(255,107,94,.08);border:1px solid rgba(255,107,94,.35);color:var(--danger);padding:12px 14px;border-radius:10px;font-size:12.5px;margin-bottom:14px}
+.demo-tag{font-size:10px;background:var(--surface-3);color:var(--text-faint);padding:2px 6px;border-radius:5px;margin-left:6px;font-weight:600;letter-spacing:.03em}
+
+@media print{
+  .sidebar,.topbar,#toastRoot{display:none !important}
+  body{background:#fff;color:#000}
+  .content{max-width:100%}
+  .payslip-only{display:block !important}
+}
+.payslip-only{display:none}
+
+/* ============ MOBILE-ONLY WIDGETS ============ */
+.mobile-only{display:none}
+
+/* ============ BOTTOM TAB NAV ============ */
+.bottom-nav{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:100;
+  background:color-mix(in srgb, var(--bg-2) 92%, transparent);backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom)) 6px;
+  justify-content:space-around;align-items:stretch;gap:2px;
+}
+.bn-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  flex:1;background:transparent;border:none;color:var(--text-dim);font-size:10.5px;font-weight:600;
+  padding:7px 4px;border-radius:12px;min-height:48px;
+}
+.bn-btn svg{width:20px;height:20px}
+.bn-btn.active{color:var(--accent);background:var(--surface-2)}
+
+/* ============ RESPONSIVE TABLE -> CARD ============ */
+@media(max-width:760px){
+  table.responsive-table thead{display:none}
+  table.responsive-table, table.responsive-table tbody, table.responsive-table tr, table.responsive-table td{display:block;width:100%}
+  table.responsive-table tr{
+    border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:10px;background:var(--surface-2);
+  }
+  table.responsive-table td{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    border:none;padding:7px 0;white-space:normal;text-align:right;
+  }
+  table.responsive-table td::before{
+    content:attr(data-label);font-size:11px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--text-dim);font-weight:600;text-align:left;flex:0 0 auto;
+  }
+  table.responsive-table td:empty{display:none}
+  table.responsive-table td[data-label=""]{display:none}
+  table.responsive-table .row-actions-cell{justify-content:flex-end;gap:8px}
+  table.responsive-table .row-actions-cell::before{content:none}
+}
+
+@media(max-width:900px){
+  .sidebar{position:fixed;left:-260px;top:0;bottom:0;transition:left .2s;box-shadow:var(--shadow);z-index:150}
+  .sidebar.open{left:0}
+  .menu-btn{display:flex}
+  .content{padding:14px 14px calc(84px + env(safe-area-inset-bottom))}
+  .topbar{padding:12px 14px}
+  .bottom-nav{display:flex}
+  .mobile-only{display:block}
+  .term-actions .btn{min-width:120px;min-height:52px}
+  .icon-btn{width:40px;height:40px}
+  .nav-btn{min-height:44px}
+  .term-time{font-size:24px}
+  .term-greeting{font-size:19px}
+  .modal{max-width:100%;width:100%;border-radius:16px 16px 0 0;position:fixed;left:0;right:0;bottom:0;max-height:85vh}
+  .overlay{align-items:flex-end;padding:0}
+  .terminal{padding:20px 16px}
+  .scanner{width:96px;height:96px}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:420px){
+  .grid-4{grid-template-columns:1fr}
+  .term-actions{flex-direction:column}
+  .term-actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div id="toastRoot"></div>
+<div id="modalRoot"></div>
+
+<div id="welcomeScreen"></div>
+
+<div class="app hidden" id="appRoot">
+  <div class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark" id="sidebarLogo"></div>
+      <div class="brand-text">AttendX<span>Biometric Terminal</span></div>
+    </div>
+    <nav class="nav" id="navList"></nav>
+    <div class="nav-foot">
+      <div id="navFootIdentity" style="margin-bottom:10px"></div>
+      <div class="theme-toggle">
+        <button data-theme-btn="dark">🌙 Dark</button>
+        <button data-theme-btn="light">☀️ Light</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <div class="sub" id="pageSub">Overview of today's attendance</div>
+        </div>
+      </div>
+      <div class="top-right">
+        <span class="badge badge-present" id="clockChip"><span class="badge-dot"></span><span id="clockChipTxt">--:--:--</span></span>
+      </div>
+    </div>
+    <div class="content" id="viewRoot"></div>
+  </div>
+
+  <div class="bottom-nav" id="bottomNav"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   1. STORE — localStorage-backed data layer
+   ============================================================ */
+const EMPLOYEE_SEED_PHOTO = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAKAAeADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAECAwQFBgcICf/EAEEQAAEDAgQEBAMGBAUDBQEBAAEAAgMEEQUSITEGQVFhBxMicTKBkQgUI0KhsVJiwdEVM3KC4SRD8DRTkqLxwmP/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAQIDBAUG/8QALREBAAICAgICAQMDBAMBAAAAAAECAxEEIRIxBUFREyJhFDJCI3GBoVJi8LH/2gAMAwEAAhEDEQA/APslSoRA5IiICInZAREQEREBERACIiAiIgIiICInJAREQEREBCiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiBZAnNEBERAREQAiJ3QEREBETugIiICIiAiIgIiICIiAie6ICIiAie6ICIiAiIgIiIBREQEREBERAREQEREDZECICIiAiIgJzREBERAREQEREBERARE2QCiIgIiICIiAiIgIiICBEQEREBERAREQEREBERAREQEREBERAREQETmiAiIgIiICIUQEREBERAREQEREBERAREQEREAoiICIiAiIgIiICIiAiIgIURAREQETREBNURAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQE5IiAiIgIiICIhQEREBERAREQEREBERAREQEREBERAREsgIiICIiAiIgIiICIiAiIgIic0BERAREQEREBERAREQEREBERAREQEREBERAROaICIEQEREBETZAREQEREBERAREQEREBERAQInNAREQPZERAREQEREBERAREQEREBERAREQEREBETZATksP3hrj+Gx8g/iaNPquExviak4dwX7/i8jYvS57muNiedhfe2g+iDn5ZI4YzJLIyNjRcuc4AD5lcTjfFPDeCUzanF8dw2gic3M11RVMjzDqLnX5L5D8YfHviHGZnx4ZWnBMOZJ+FDBY1E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';
+const HISTORICAL_SEED = [
+  {date:'2026-08-03', rawIn:'07:37', rawOut:'17:03'},
+  {date:'2026-08-04', rawIn:'07:42', rawOut:'17:09'},
+  {date:'2026-08-05', rawIn:'07:52', rawOut:'17:24'},
+  {date:'2026-08-06', rawIn:'07:42', rawOut:'17:05'},
+  {date:'2026-08-07', rawIn:'08:10', rawOut:'17:02'},
+  {date:'2026-08-10', rawIn:'07:56', rawOut:'17:05'},
+  {date:'2026-08-11', rawIn:'07:54', rawOut:'17:08'},
+  {date:'2026-08-12', rawIn:'08:00', rawOut:'17:03'},
+  {date:'2026-08-13', rawIn:'08:00', rawOut:'17:04'}
+];
+
+const KEYS = {
+  employees:'employees',
+  attendance:'attendanceRecords',
+  settings:'attendanceSettings',
+  holidays:'holidays',
+  leave:'leaveRecords',
+  audit:'auditLogs',
+  app:'appSettings'
+};
+
+const DEFAULT_SETTINGS = {
+  regularTimeIn:'08:00',
+  regularTimeOut:'17:00',
+  earliestTimeIn:'07:05',
+  earlyArrivalCutoff:'07:45',
+  latestTimeOut:'17:40',
+  breakMode:'auto',            // 'auto' | 'manual'
+  breakMinutes:60,
+  paidWorkingMinutes:480,
+  dailySalary:455,
+  otMultiplier:1.25,
+  workdays:[1,2,3,4,5]          // 0=Sun..6=Sat
+};
+const DEFAULT_APP = {
+  theme:'dark',
+  adminPin:'1234',
+  admin:null,            // {name, username, passwordHash, salt} — set during first-run setup
+  demoLoaded:false,
+  setupDone:false,
+  seeded:false,
+  lastEmployeeId:null
+};
+
+const Store = {
+  get(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw===null) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ return fallback; }
+  },
+  set(key, val){
+    localStorage.setItem(key, JSON.stringify(val));
+  },
+  employees(){ return this.get(KEYS.employees, []); },
+  saveEmployees(v){ this.set(KEYS.employees, v); },
+  attendance(){ return this.get(KEYS.attendance, []); },
+  saveAttendance(v){ this.set(KEYS.attendance, v); },
+  settings(){ return Object.assign({}, DEFAULT_SETTINGS, this.get(KEYS.settings, {})); },
+  saveSettings(v){ this.set(KEYS.settings, v); },
+  holidays(){ return this.get(KEYS.holidays, []); },
+  saveHolidays(v){ this.set(KEYS.holidays, v); },
+  leave(){ return this.get(KEYS.leave, []); },
+  saveLeave(v){ this.set(KEYS.leave, v); },
+  audit(){ return this.get(KEYS.audit, []); },
+  saveAudit(v){ this.set(KEYS.audit, v); },
+  app(){ return Object.assign({}, DEFAULT_APP, this.get(KEYS.app, {})); },
+  saveApp(v){ this.set(KEYS.app, v); }
+};
+
+function logAudit(action, employeeName, recordId, reason, prev, next){
+  const logs = Store.audit();
+  const now = new Date();
+  logs.unshift({
+    id:uid('AUD'), date:fmtDateISO(now), time:fmtTime12(now),
+    action, employee:employeeName||'-', recordId:recordId||'-',
+    reason:reason||'-', previousValue:prev?JSON.stringify(prev):'-', newValue:next?JSON.stringify(next):'-'
+  });
+  Store.saveAudit(logs.slice(0,2000));
+}
+
+/* ============================================================
+   2. UTILITIES
+   ============================================================ */
+let seqCounter = 0;
+function uid(prefix){
+  seqCounter++;
+  return prefix+'-'+Date.now().toString(36).toUpperCase()+seqCounter.toString(36).toUpperCase();
+}
+function pad(n){ return n<10?'0'+n:''+n; }
+function fmtDateISO(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function fmtDateLong(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-US',{weekday:'long', year:'numeric', month:'long', day:'numeric'});
+}
+function fmtDateShort(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-US',{year:'numeric', month:'short', day:'numeric'});
+}
+function fmtTime12(d){
+  let h = d.getHours(), m = d.getMinutes(), s = d.getSeconds();
+  const ap = h>=12?'PM':'AM';
+  h = h%12; if(h===0) h=12;
+  return pad(h)+':'+pad(m)+':'+pad(s)+' '+ap;
+}
+function timeStrTo12(hhmm){
+  if(!hhmm) return '--:--';
+  const [h,m] = hhmm.split(':').map(Number);
+  const ap = h>=12?'PM':'AM';
+  let hh = h%12; if(hh===0) hh=12;
+  return pad(hh)+':'+pad(m)+' '+ap;
+}
+function minutesToTimeStr(mins){
+  mins = ((mins%1440)+1440)%1440;
+  const h = Math.floor(mins/60), m = mins%60;
+  return pad(h)+':'+pad(m);
+}
+function timeStrToMinutes(hhmm){
+  const [h,m] = hhmm.split(':').map(Number);
+  return h*60+m;
+}
+function dateTimeToMinutes(d){ return d.getHours()*60+d.getMinutes(); }
+function minutesToHM(mins){
+  mins = Math.round(mins);
+  const h = Math.floor(mins/60), m = mins%60;
+  if(h<=0) return m+'m';
+  return h+'h '+(m>0?m+'m':'');
+}
+function money(n){
+  n = n||0;
+  return '₱'+n.toLocaleString('en-PH',{minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function esc(s){
+  return (s===undefined||s===null?'':String(s)).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function toast(title, sub, kind){
+  const root = document.getElementById('toastRoot');
+  const el = document.createElement('div');
+  el.className = 'toast'+(kind?(' '+kind):'');
+  el.innerHTML = '<div class="tt">'+esc(title)+'</div>'+(sub?'<div class="ts">'+esc(sub)+'</div>':'');
+  root.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 3800);
+}
+function weekdayIdx(iso){ return new Date(iso+'T00:00:00').getDay(); }
+
+/* ============================================================
+   3. CENTRALIZED PAYROLL / ATTENDANCE RULES ENGINE
+   All calculations reference Store.settings() — never hard-coded.
+   ============================================================ */
+const Engine = {
+  hourlyRate(settings){
+    settings = settings || Store.settings();
+    return settings.dailySalary / (settings.paidWorkingMinutes/60);
+  },
+
+  // Classify + compute a Time In event
+  evaluateTimeIn(rawDate, settings){
+    settings = settings || Store.settings();
+    const rawMins = dateTimeToMinutes(rawDate);
+    const earliest = timeStrToMinutes(settings.earliestTimeIn);
+    const cutoff = timeStrToMinutes(settings.earlyArrivalCutoff);
+    const regularIn = timeStrToMinutes(settings.regularTimeIn);
+
+    let outsideEarliest = rawMins < earliest;
+    let officialMins, inStatus;
+    if(rawMins <= regularIn){
+      officialMins = regularIn;
+      inStatus = rawMins < regularIn ? 'Early Arrival' : 'On Time';
+    } else {
+      officialMins = rawMins;
+      inStatus = 'Late';
+    }
+    return {
+      rawMins, officialMins, inStatus, outsideEarliest,
+      rawStr: minutesToTimeStr(rawMins), officialStr: minutesToTimeStr(officialMins)
+    };
+  },
+
+  // Classify + compute a Time Out event
+  evaluateTimeOut(rawDate, settings){
+    settings = settings || Store.settings();
+    const rawMins = dateTimeToMinutes(rawDate);
+    const regularOut = timeStrToMinutes(settings.regularTimeOut);
+    const latestOut = timeStrToMinutes(settings.latestTimeOut);
+
+    let otMinutes = 0, outStatus, flagged=false;
+    if(rawMins <= regularOut){
+      outStatus = rawMins < regularOut ? 'Incomplete' : 'On Time';
+    } else if(rawMins <= latestOut){
+      otMinutes = rawMins - regularOut;
+      outStatus = 'Overtime';
+    } else {
+      otMinutes = rawMins - regularOut;
+      outStatus = 'Flagged';
+      flagged = true;
+    }
+    return {
+      rawMins, officialMins: rawMins, outStatus, otMinutes, flagged,
+      rawStr: minutesToTimeStr(rawMins), officialStr: minutesToTimeStr(rawMins)
+    };
+  },
+
+  // Full computation once both in & out are known
+  computeRecordTotals(record, settings, breakMinutesOverride){
+    settings = settings || Store.settings();
+    const breakMins = (breakMinutesOverride!==undefined && breakMinutesOverride!==null)
+      ? breakMinutesOverride
+      : settings.breakMinutes;
+
+    const officialInM = timeStrToMinutes(record.officialTimeIn);
+    const officialOutM = timeStrToMinutes(record.officialTimeOut);
+    let elapsed = officialOutM - officialInM;
+    if(elapsed<0) elapsed = 0;
+    let workMinutes = elapsed - breakMins;
+    if(workMinutes<0) workMinutes = 0;
+
+    const regularMinutes = Math.min(workMinutes, settings.paidWorkingMinutes);
+    const overtimeMinutes = Math.max(record.overtimeMinutesRaw||0, 0);
+
+    const hourlyRate = Engine.hourlyRate(settings);
+    const regularPay = hourlyRate * (regularMinutes/60);
+    const overtimePay = hourlyRate * settings.otMultiplier * (overtimeMinutes/60);
+    const totalPay = regularPay + overtimePay;
+
+    return { breakMinutes:breakMins, regularMinutes, overtimeMinutes, hourlyRate, regularPay, overtimePay, totalPay };
+  },
+
+  finalStatus(record){
+    if(record.flaggedOut) return 'Flagged';
+    if(record.flaggedIn) return 'Flagged';
+    if(!record.timeOut) return record.inStatus==='Late' ? 'Late' : 'Working';
+    if(record.inStatus==='Late') return 'Late';
+    if(record.outStatus==='Incomplete') return 'Incomplete';
+    if(record.overtimeMinutes>0) return 'Overtime';
+    return 'Present';
+  }
+};
+
+const STATUS_BADGE = {
+  'Present':'badge-present','Working':'badge-present','Late':'badge-late','Overtime':'badge-overtime',
+  'Incomplete':'badge-incomplete','Flagged':'badge-absent','Absent':'badge-absent','Leave':'badge-leave','Rest Day':'badge-rest'
+};
+const STATUS_EMOJI = {
+  'Present':'🟢','Working':'🟢','Late':'🟡','Leave':'🔵','Absent':'🔴','Overtime':'🟣','Rest Day':'⚪','Incomplete':'🟠','Flagged':'🟠'
+};
+function statusBadge(status){
+  const cls = STATUS_BADGE[status] || 'badge-rest';
+  return '<span class="badge '+cls+'"><span class="badge-dot"></span>'+esc(status)+'</span>';
+}
+
+/* ============================================================
+   3B. PASSWORD HASHING (client-side, demo-grade)
+   Uses SubtleCrypto PBKDF2 so no plaintext password is ever stored.
+   NOTE: this protects only against casual inspection of localStorage —
+   it is not a substitute for real server-side authentication. See the
+   "Local Demo Mode vs Connected Production Mode" note in Settings.
+   ============================================================ */
+const Crypto = {
+  async hash(password, saltB64){
+    const enc = new TextEncoder();
+    let salt;
+    if(saltB64){
+      salt = Uint8Array.from(atob(saltB64), c=>c.charCodeAt(0));
+    } else {
+      salt = crypto.getRandomValues(new Uint8Array(16));
+    }
+    const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({name:'PBKDF2', salt, iterations:100000, hash:'SHA-256'}, keyMaterial, 256);
+    const hashB64 = btoa(String.fromCharCode(...new Uint8Array(bits)));
+    const saltOut = btoa(String.fromCharCode(...salt));
+    return {hash:hashB64, salt:saltOut};
+  },
+  async verify(password, hashB64, saltB64){
+    const {hash} = await this.hash(password, saltB64);
+    return hash === hashB64;
+  }
+};
+
+/* ============================================================
+   3C. WEBAUTHN — real device biometric / passkey authentication
+   Uses the browser's native navigator.credentials API so the device's
+   own secure authenticator (Face ID, Touch ID, Windows Hello, Android
+   fingerprint, etc.) performs the actual verification. This app never
+   sees or stores a fingerprint/face — only the opaque credential
+   response the browser returns.
+
+   IMPORTANT LIMITATION: WebAuthn requires a "secure context" (HTTPS,
+   or http://localhost). Opening this file directly as file:// will
+   generally NOT satisfy that requirement in most browsers, so
+   isAvailable() will correctly report biometrics as unavailable and
+   the app falls back to PIN — exactly as the spec requires. Host this
+   file over HTTPS (see Settings → Installable App Experience) to use
+   real device biometrics.
+   ============================================================ */
+const WebAuthn = {
+  async isAvailable(){
+    if(!window.PublicKeyCredential) return false;
+    try{
+      if(PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable){
+        return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      }
+      return true;
+    }catch(e){ return false; }
+  },
+  randomChallenge(){ return crypto.getRandomValues(new Uint8Array(32)); },
+  deviceLabel(){
+    const ua = navigator.userAgent;
+    if(/iphone/i.test(ua)) return '📱 iPhone';
+    if(/ipad/i.test(ua)) return '📱 iPad';
+    if(/android/i.test(ua)) return '📱 Android Device';
+    if(/mac os/i.test(ua)) return '💻 Mac';
+    if(/windows/i.test(ua)) return '💻 Windows PC';
+    return '💻 This Device';
+  },
+  async register(employee){
+    const challenge = this.randomChallenge();
+    const userId = new TextEncoder().encode(employee.id);
+    const cred = await navigator.credentials.create({
+      publicKey:{
+        challenge,
+        rp:{ name:'AttendX Biometric Terminal' },
+        user:{ id:userId, name:employee.employeeId, displayName:employee.name },
+        pubKeyCredParams:[{type:'public-key', alg:-7}, {type:'public-key', alg:-257}],
+        authenticatorSelection:{ userVerification:'required', authenticatorAttachment:'platform' },
+        timeout:60000,
+        attestation:'none'
+      }
+    });
+    if(!cred) throw new Error('No credential returned');
+    const idB64 = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+    return { credentialId:idB64, device:this.deviceLabel(), registeredAt:new Date().toISOString() };
+  },
+  async authenticate(passkeys){
+    const challenge = this.randomChallenge();
+    const allow = (passkeys||[]).map(p=>({ type:'public-key', id:Uint8Array.from(atob(p.credentialId), c=>c.charCodeAt(0)) }));
+    const assertion = await navigator.credentials.get({
+      publicKey:{ challenge, allowCredentials:allow.length?allow:undefined, userVerification:'required', timeout:60000 }
+    });
+    if(!assertion) throw new Error('No assertion returned');
+    return true;
+  }
+};
+
+/* ============================================================
+   4. APPLICATION STATE
+   ============================================================ */
+const State = {
+  view:'dashboard',
+  role:null,              // 'admin' | 'employee' — set after login, in-memory only (session)
+  sessionEmployeeId:null, // for employee-role self-service mode
+  selectedEmployeeId:null,
+  verified:false,
+  scanTimer:null,
+  clockTimer:null,
+  liveWorkTimer:null,
+  calMonth:new Date().getMonth(),
+  calYear:new Date().getFullYear(),
+  calEmployeeId:'all',
+  payrollEmployeeId:null,
+  payrollMonth:new Date().getMonth(),
+  payrollYear:new Date().getFullYear(),
+  attFilters:{ q:'', month:'', year:'', status:'', employee:'' },
+  pendingAdminAction:null
+};
+
+const NAV_ITEMS = [
+  {id:'dashboard', label:'Dashboard', icon:iconGrid()},
+  {id:'attendance', label:'Attendance', icon:iconClock()},
+  {id:'employees', label:'Employees', icon:iconUsers()},
+  {id:'payroll', label:'Payroll', icon:iconWallet()},
+  {id:'calendar', label:'Calendar', icon:iconCal()},
+  {id:'leave', label:'Leave', icon:iconLeave()},
+  {id:'audit', label:'Audit Log', icon:iconAudit()},
+  {id:'settings', label:'Settings', icon:iconGear()}
+];
+const NAV_SUB = {
+  dashboard:"Overview of today's attendance",
+  attendance:'Clock in, clock out, and review records',
+  employees:'Register and manage employees',
+  payroll:'Monthly payroll summaries and payslips',
+  calendar:'Visual attendance calendar',
+  leave:'Vacation, sick, and other leave requests',
+  audit:'Full history of record changes',
+  settings:'Work schedule, payroll rules, and system config'
+};
+// Primary mobile bottom-tab items. "more" isn't a real view — it opens the full nav drawer.
+const BOTTOM_NAV_ITEMS = [
+  {id:'dashboard', label:'Home', icon:iconGrid()},
+  {id:'attendance', label:'Attendance', icon:iconClock()},
+  {id:'payroll', label:'Payroll', icon:iconWallet()},
+  {id:'more', label:'More', icon:iconGear()}
+];
+// Employees who are not logged in as admin only get the terminal + their own history.
+const EMPLOYEE_NAV_ITEMS = [
+  {id:'attendance', label:'Attendance', icon:iconClock()}
+];
+
+/* ============================================================
+   5. ICONS (inline svg strings, stroke uses currentColor)
+   ============================================================ */
+function iconGrid(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>';}
+function iconClock(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';}
+function iconUsers(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c1-4 3.5-6 6.5-6s5.5 2 6.5 6"/><circle cx="17.2" cy="8.6" r="2.6"/><path d="M15.5 14.3c2.6.3 4.5 2.2 5.3 5.7"/></svg>';}
+function iconWallet(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="13" rx="2.2"/><path d="M2.5 10h19M16.5 14.2h2"/><path d="M6 6V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';}
+function iconCal(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>';}
+function iconLeave(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5-7-11a7 7 0 0 1 14 0c0 6-7 11-7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>';}
+function iconAudit(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h9v18H6a2 2 0 0 1-2-2V7l5-4Z"/><path d="M9 3v4H5"/><path d="M9 12h6M9 16h6"/></svg>';}
+function iconGear(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>';}
+function iconFinger(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Z"/><path d="M8 13v1a4 4 0 0 0 8 0v-1"/><path d="M4 12v1a8 8 0 0 0 16 0v-1"/><path d="M12 22v-3"/></svg>';}
+function iconEdit(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';}
+function iconTrash(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';}
+function iconEye(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>';}
+function iconEmpty(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 11h18M8 3.5v5M16 3.5v5"/></svg>';}
+function iconCamera(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5V18A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8Z"/><circle cx="12" cy="13.5" r="3.5"/></svg>';}
+function iconLock(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>';}
+function iconShield(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4.5"/></svg>';}
+
+/* Brand mark: biometric scanner (fingerprint + person) in a viewfinder frame.
+   Original composition — echoes the "employee biometric" concept without
+   reproducing any external artwork pixel-for-pixel. Used everywhere the
+   app needs its logo: login, sidebar, dashboards, terminal, favicon source. */
+function logoMark(showFrame){
+  return '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">'
+    + (showFrame!==false ? '<rect x="0" y="0" width="512" height="512" rx="112" fill="url(#logoGrad)"/>' : '')
+    + '<g stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.95">'
+    + '<path d="M138 172 V140 a16 16 0 0 1 16-16 h32"/>'
+    + '<path d="M374 172 V140 a16 16 0 0 1 -16-16 h-32"/>'
+    + '<path d="M138 340 V372 a16 16 0 0 0 16 16 h32"/>'
+    + '<path d="M374 340 V372 a16 16 0 0 0 -16 16 h-32"/>'
+    + '</g>'
+    + '<g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round">'
+    + '<path d="M180 232 a76 76 0 0 1 152 0 v18"/>'
+    + '<path d="M204 232 a52 52 0 0 1 104 0 v30"/>'
+    + '<path d="M228 232 a28 28 0 0 1 56 0 v46"/>'
+    + '</g>'
+    + '<g fill="#FFFFFF"><circle cx="256" cy="298" r="30"/>'
+    + '<path d="M197 388 c6-40 30-62 59-62 s53 22 59 62 a10 10 0 0 1 -10 12 h-98 a10 10 0 0 1 -10-12 Z"/></g>'
+    + '<defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">'
+    + '<stop offset="0%" stop-color="#EF2B39"/><stop offset="100%" stop-color="#A10F1C"/></linearGradient></defs>'
+    + '</svg>';
+}
+
+/* ============================================================
+   6. RENDER: SHELL / NAV
+   ============================================================ */
+function renderNav(){
+  const logoEl = document.getElementById('sidebarLogo');
+  if(logoEl && !logoEl.dataset.filled){ logoEl.innerHTML = logoMark(); logoEl.dataset.filled='1'; }
+
+  const items = State.role==='admin' ? NAV_ITEMS : EMPLOYEE_NAV_ITEMS;
+  const nav = document.getElementById('navList');
+  nav.innerHTML = items.map(it=>
+    '<button class="nav-btn'+(State.view===it.id?' active':'')+'" data-nav="'+it.id+'">'+it.icon+'<span>'+it.label+'</span></button>'
+  ).join('');
+  nav.querySelectorAll('[data-nav]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ setView(btn.dataset.nav); document.getElementById('sidebar').classList.remove('open'); });
+  });
+
+  const foot = document.getElementById('navFootIdentity');
+  if(foot){
+    const app = Store.app();
+    const who = State.role==='admin' ? (app.admin?app.admin.name:'Admin') : 'Employee Mode';
+    foot.innerHTML = '<div class="row-gap" style="justify-content:space-between"><span style="font-size:12px;color:var(--text-dim)">'+esc(who)+'</span>'
+      + '<button class="btn btn-sm" id="logoutBtn">Log Out</button></div>';
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+  }
+
+  const bnav = document.getElementById('bottomNav');
+  if(bnav){
+    if(State.role!=='admin'){ bnav.innerHTML=''; bnav.style.display='none'; }
+    else {
+      bnav.style.display='';
+      // Primary mobile tabs: Home, Attendance, Payroll, More (More opens the full nav drawer)
+      const isMoreActive = !['dashboard','attendance','payroll'].includes(State.view);
+      bnav.innerHTML = BOTTOM_NAV_ITEMS.map(it=>{
+        const active = it.id==='more' ? isMoreActive : State.view===it.id;
+        return '<button class="bn-btn'+(active?' active':'')+'" data-bnav="'+it.id+'">'+it.icon+'<span>'+it.label+'</span></button>';
+      }).join('');
+      bnav.querySelectorAll('[data-bnav]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(btn.dataset.bnav==='more'){
+            document.getElementById('sidebar').classList.toggle('open');
+          } else {
+            document.getElementById('sidebar').classList.remove('open');
+            setView(btn.dataset.bnav);
+          }
+        });
+      });
+    }
+  }
+}
+function setView(v){
+  State.view = v;
+  const items = State.role==='admin' ? NAV_ITEMS : EMPLOYEE_NAV_ITEMS;
+  const match = items.find(n=>n.id===v) || items[0];
+  State.view = match.id;
+  document.getElementById('pageTitle').textContent = match.label;
+  document.getElementById('pageSub').textContent = NAV_SUB[match.id];
+  renderNav();
+  renderView();
+}
+function renderView(){
+  const root = document.getElementById('viewRoot');
+  clearInterval(State.liveWorkTimer);
+  const renderers = {
+    dashboard:renderDashboard, attendance:renderAttendance, employees:renderEmployees,
+    payroll:renderPayroll, calendar:renderCalendar, leave:renderLeave, audit:renderAudit, settings:renderSettings
+  };
+  root.innerHTML = renderers[State.view]();
+  bindViewEvents();
+}
+
+/* ============================================================
+   7. ATTENDANCE HELPERS (queries)
+   ============================================================ */
+function getEmployee(id){ return Store.employees().find(e=>e.id===id); }
+function todaysOpenRecord(employeeId){
+  const today = fmtDateISO(new Date());
+  return Store.attendance().find(r=>r.employeeId===employeeId && r.date===today && !r.timeOut);
+}
+function todaysRecord(employeeId){
+  const today = fmtDateISO(new Date());
+  return Store.attendance().find(r=>r.employeeId===employeeId && r.date===today);
+}
+function recordsForEmployee(id){ return Store.attendance().filter(r=>r.employeeId===id); }
+function monthRecords(year, month, employeeId){
+  return Store.attendance().filter(r=>{
+    const d = new Date(r.date+'T00:00:00');
+    return d.getFullYear()===year && d.getMonth()===month && (!employeeId || employeeId==='all' || r.employeeId===employeeId);
+  });
+}
+
+/* ============================================================
+   8. DASHBOARD
+   ============================================================ */
+function renderDashboard(){
+  const employees = Store.employees();
+  const today = fmtDateISO(new Date());
+  const settings = Store.settings();
+  const todays = Store.attendance().filter(r=>r.date===today);
+  const present = todays.filter(r=>['Present','Working','Overtime','Late'].includes(r.status)).length;
+  const late = todays.filter(r=>r.status==='Late').length;
+  const working = todays.filter(r=>!r.timeOut).length;
+  const completed = todays.filter(r=>r.timeOut).length;
+  const overtime = todays.filter(r=>(r.overtimeMinutes||0)>0).length;
+  const activeEmployees = employees.filter(e=>e.status==='Active').length;
+  const absent = Math.max(activeEmployees - todays.length, 0);
+  const todaysPayroll = todays.reduce((a,r)=>a+(r.totalPay||0),0);
+
+  const now = new Date();
+  const monthRecs = monthRecords(now.getFullYear(), now.getMonth(), null);
+  const regHours = monthRecs.reduce((a,r)=>a+(r.regularMinutes||0),0)/60;
+  const otHours = monthRecs.reduce((a,r)=>a+(r.overtimeMinutes||0),0)/60;
+  const totalPay = monthRecs.reduce((a,r)=>a+(r.totalPay||0),0);
+
+  const sel = State.selectedEmployeeId ? getEmployee(State.selectedEmployeeId) : null;
+
+  return `
+  <div class="mobile-only">${renderTerminalWidget()}</div>
+
+  <div class="row-gap" style="margin-bottom:16px">
+    <button class="btn btn-primary btn-sm" data-goto="employees" data-add-emp-quick="1">+ Add Employee</button>
+    <button class="btn btn-sm" id="quickAddAttBtn">+ Add Attendance</button>
+    <button class="btn btn-sm" data-goto="attendance">Manage Attendance</button>
+    <button class="btn btn-sm" data-goto="payroll">Payroll</button>
+    <button class="btn btn-sm" data-goto="audit">Audit Log</button>
+    <button class="btn btn-sm" data-goto="settings">Import / Export</button>
+  </div>
+
+  <div class="grid grid-4" style="margin-bottom:16px">
+    ${statCard('Total Employees', activeEmployees, employees.length-activeEmployees+' inactive')}
+    ${statCard('Present Today', present, late>0?late+' late':'All on time')}
+    ${statCard('Currently Working', working, completed+' completed')}
+    ${statCard('Absent Today', absent, absent>0?'Needs review':'None missing')}
+  </div>
+  <div class="grid grid-4" style="margin-bottom:18px">
+    ${statCard("Today's Est. Payroll", money(todaysPayroll), todays.length+' records today')}
+    ${statCard('Current Month Payroll', money(totalPay), now.toLocaleDateString('en-US',{month:'long'}))}
+    ${statCard('Total OT (mo.)', minutesToHM(otHours*60), 'Across all employees')}
+    ${statCard('Overtime Today', overtime, overtime>0?'Employees on OT':'None today')}
+  </div>
+
+  <div class="grid" style="grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:18px" class="grid-resp">
+    <div class="card">
+      <div class="section-title">Estimated Monthly Earnings</div>
+      <div class="section-desc">Projected payroll cost across all employees this month — figures are estimates.</div>
+      <div class="stat-value" style="font-size:32px">${money(totalPay)}</div>
+      <div class="stat-sub">${regHours.toFixed(1)} regular hrs · ${minutesToHM(otHours*60)} overtime · ${monthRecs.length} records</div>
+    </div>
+    <div class="card">
+      <div class="section-title">Employees</div>
+      <div class="kv"><span class="k">Active</span><span class="v">${activeEmployees}</span></div>
+      <div class="kv"><span class="k">Inactive</span><span class="v">${employees.length-activeEmployees}</span></div>
+      <div class="kv"><span class="k">Total</span><span class="v">${employees.length}</span></div>
+      <button class="btn btn-primary btn-block" style="margin-top:12px" data-goto="employees">Manage Employees</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:12px">
+      <div>
+        <div class="section-title" style="margin-bottom:0">Today's Attendance</div>
+        <div class="section-desc" style="margin-bottom:0">${fmtDateLong(today)}</div>
+      </div>
+      <button class="btn" data-goto="attendance">Open Terminal →</button>
+    </div>
+    ${todays.length===0 ? emptyState('No attendance recorded yet today.') : attendanceTable(todays.slice().reverse(), false)}
+  </div>
+  <style>@media(max-width:900px){.grid[style*="1.6fr"]{grid-template-columns:1fr !important}}</style>
+  `;
+}
+function statCard(label, value, sub){
+  return '<div class="card stat-card"><div class="stat-label">'+esc(label)+'</div><div class="stat-value">'+value+'</div><div class="stat-sub">'+esc(sub||'')+'</div></div>';
+}
+function emptyState(msg, sub){
+  return '<div class="empty-state">'+iconEmpty()+'<div class="t">'+esc(msg)+'</div>'+(sub?'<div>'+esc(sub)+'</div>':'')+'</div>';
+}
+
+/* ============================================================
+   9. ATTENDANCE VIEW (terminal + table)
+   ============================================================ */
+function renderTerminalWidget(){
+  const employees = Store.employees().filter(e=>e.status==='Active');
+  const selId = State.selectedEmployeeId;
+  const emp = selId ? getEmployee(selId) : null;
+  const rec = emp ? todaysRecord(emp.id) : null;
+  const openRec = emp ? todaysOpenRecord(emp.id) : null;
+
+  const options = employees.map(e=>'<option value="'+e.id+'"'+(e.id===selId?' selected':'')+'>'+esc(e.name)+' ('+esc(e.employeeId)+')</option>').join('');
+
+  return `
+  <div class="terminal" style="margin-bottom:20px">
+    <div class="term-top">
+      <div>
+        <div class="term-greeting" id="termGreeting">${greeting()}</div>
+        <div class="term-emp">${emp ? esc(emp.name)+' · '+esc(emp.employeeId) : 'Select an employee to begin verification'}</div>
+      </div>
+      <div class="term-clock">
+        <div class="term-date" id="termDate">${new Date().toLocaleDateString('en-US',{weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
+        <div class="term-time" id="termTime">${fmtTime12(new Date())}</div>
+      </div>
+    </div>
+
+    <div class="field" style="max-width:360px;margin-top:22px">
+      <label>Select Employee</label>
+      <select id="empSelect">
+        <option value="">— Choose employee —</option>
+        ${options}
+      </select>
+    </div>
+
+    ${emp ? `
+    <div style="max-width:320px;margin:10px 0 4px">
+      <label>Employee PIN ${emp.pin?'(required)':'(not set)'}</label>
+      <input type="password" inputmode="numeric" id="empPinInput" placeholder="${emp.pin?'Enter 4-digit PIN':'No PIN configured'}" maxlength="8" ${emp.pin?'':'disabled'}>
+    </div>
+    <div class="term-mid">
+      <div class="scanner" id="scannerEl">
+        ${iconFinger()}
+        <div class="scan-ring"></div>
+        <div class="scan-line"></div>
+      </div>
+      <div class="term-status">
+        <div class="status-line" id="scanStatusLine">${State.verified ? 'IDENTITY VERIFIED' : 'AWAITING VERIFICATION'}</div>
+        <div class="status-value" id="scanStatusValue">
+          ${State.verified ? statusBadge(rec ? Engine.finalStatus(rec) : 'Working') : '<span style="color:var(--text-faint)">Tap Verify Identity to continue</span>'}
+        </div>
+        ${rec ? `
+        <div class="status-meta">
+          <div><span class="k">Raw In</span><span class="v">${rec.rawTimeIn?timeStrTo12(rec.rawTimeIn):'--:--'}</span></div>
+          <div><span class="k">Official In</span><span class="v">${rec.officialTimeIn?timeStrTo12(rec.officialTimeIn):'--:--'}</span></div>
+          <div><span class="k">Raw Out</span><span class="v">${rec.rawTimeOut?timeStrTo12(rec.rawTimeOut):'--:--'}</span></div>
+          <div><span class="k">Hours</span><span class="v" id="liveWorkTime">${rec.timeOut? minutesToHM(rec.regularMinutes+rec.overtimeMinutes) : '00:00:00'}</span></div>
+        </div>` : ''}
+        ${!State.verified ? '<button class="btn btn-primary btn-sm" id="verifyBtn" style="margin-top:12px">Verify Identity</button>' : ''}
+      </div>
+    </div>
+    <div class="term-actions">
+      <button class="btn btn-primary btn-lg" id="timeInBtn" ${(!State.verified || openRec || (rec && rec.timeOut)) ? 'disabled' : ''}>⏱ TIME IN</button>
+      <button class="btn btn-danger btn-lg" id="timeOutBtn" ${(!State.verified || !openRec) ? 'disabled' : ''}>⏹ TIME OUT</button>
+    </div>
+    <div class="empty-scan-msg">Fingerprint scan is a visual simulation only — no biometric data is captured or stored.</div>
+    ` : `<div class="empty-scan-msg" style="margin-top:14px">Choose an employee above, then verify identity to enable Time In / Time Out.</div>`}
+  </div>
+  `;
+}
+function renderAttendance(){
+  const isAdmin = State.role==='admin';
+  return `
+  ${renderTerminalWidget()}
+
+  ${isAdmin ? `
+  <div class="card">
+    <div class="row" style="margin-bottom:14px">
+      <div class="section-title" style="margin-bottom:0">Attendance Records</div>
+      <button class="btn btn-sm" id="exportCsvBtn">⬇ Export CSV</button>
+    </div>
+    <div class="row-gap" style="margin-bottom:14px">
+      <div class="search-input"><input type="text" id="attSearch" placeholder="Search attendance (name, ID, status)..." value="${esc(State.attFilters.q)}"></div>
+      <select id="attFilterEmployee" style="width:auto;min-width:150px">
+        <option value="">All Employees</option>
+        ${Store.employees().map(e=>'<option value="'+e.id+'"'+(State.attFilters.employee===e.id?' selected':'')+'>'+esc(e.name)+'</option>').join('')}
+      </select>
+      <select id="attFilterStatus" style="width:auto;min-width:130px">
+        <option value="">All Statuses</option>
+        ${['Present','Late','Overtime','Incomplete','Flagged','Working'].map(s=>'<option value="'+s+'"'+(State.attFilters.status===s?' selected':'')+'>'+s+'</option>').join('')}
+      </select>
+      <input type="month" id="attFilterMonth" style="width:auto" value="${State.attFilters.month}">
+    </div>
+    ${renderFilteredAttendanceTable()}
+  </div>
+  ` : `
+  <div class="card">
+    <div class="section-title">Today's Attendance</div>
+    <div class="section-desc">Records for the currently selected employee.</div>
+    ${State.selectedEmployeeId ? attendanceTable(recordsForEmployee(State.selectedEmployeeId).slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10), false) : emptyState('Select an employee above to view recent attendance.')}
+  </div>
+  `}
+  `;
+}
+function greeting(){
+  const h = new Date().getHours();
+  if(h<12) return 'GOOD MORNING';
+  if(h<18) return 'GOOD AFTERNOON';
+  return 'GOOD EVENING';
+}
+function renderFilteredAttendanceTable(){
+  let recs = Store.attendance().slice().sort((a,b)=> (b.date+b.rawTimeIn).localeCompare(a.date+a.rawTimeIn));
+  const f = State.attFilters;
+  if(f.employee) recs = recs.filter(r=>r.employeeId===f.employee);
+  if(f.status) recs = recs.filter(r=>r.status===f.status);
+  if(f.month) recs = recs.filter(r=>r.date.startsWith(f.month));
+  if(f.q){
+    const q = f.q.toLowerCase();
+    recs = recs.filter(r=> (r.employeeName||'').toLowerCase().includes(q) || (r.employeeCode||'').toLowerCase().includes(q) || (r.status||'').toLowerCase().includes(q));
+  }
+  if(recs.length===0) return emptyState('No matching attendance records.', 'Try adjusting your filters.');
+  return attendanceTable(recs, State.role==='admin');
+}
+function attendanceTable(recs, withActions){
+  return `<div class="table-wrap"><table class="responsive-table">
+    <thead><tr>
+      <th>Date</th><th>Employee</th><th>Raw In</th><th>Official In</th><th>Raw Out</th><th>Official Out</th>
+      <th>Reg. Hrs</th><th>OT</th><th>Reg. Pay</th><th>OT Pay</th><th>Total</th><th>Status</th>${withActions?'<th></th>':''}
+    </tr></thead>
+    <tbody>
+    ${recs.map(r=>`<tr>
+      <td data-label="Date">${fmtDateShort(r.date)}</td>
+      <td data-label="Employee">${esc(r.employeeName)}${r.demo?'<span class="demo-tag">DEMO</span>':''}</td>
+      <td class="mono" data-label="Raw In">${r.rawTimeIn?timeStrTo12(r.rawTimeIn):'—'}</td>
+      <td class="mono" data-label="Official In">${r.officialTimeIn?timeStrTo12(r.officialTimeIn):'—'}</td>
+      <td class="mono" data-label="Raw Out">${r.rawTimeOut?timeStrTo12(r.rawTimeOut):'—'}</td>
+      <td class="mono" data-label="Official Out">${r.officialTimeOut?timeStrTo12(r.officialTimeOut):'—'}</td>
+      <td class="mono" data-label="Reg. Hrs">${r.regularMinutes?(r.regularMinutes/60).toFixed(2)+'h':'—'}</td>
+      <td class="mono" data-label="OT">${r.overtimeMinutes?minutesToHM(r.overtimeMinutes):'—'}</td>
+      <td class="mono" data-label="Reg. Pay">${r.regularPay?money(r.regularPay):'—'}</td>
+      <td class="mono" data-label="OT Pay">${r.overtimePay?money(r.overtimePay):'—'}</td>
+      <td class="mono" data-label="Total">${r.totalPay?money(r.totalPay):'—'}</td>
+      <td data-label="Status">${statusBadge(r.status)}</td>
+      ${withActions?`<td class="row-actions-cell" data-label=""><div class="row-gap">
+        <button class="icon-btn" data-view-rec="${r.id}" title="View">${iconEye()}</button>
+        <button class="icon-btn" data-edit-rec="${r.id}" title="Correct">${iconEdit()}</button>
+        <button class="icon-btn" data-del-rec="${r.id}" title="Delete">${iconTrash()}</button>
+      </div></td>`:''}
+    </tr>`).join('')}
+    </tbody>
+  </table></div>`;
+}
+
+/* ============================================================
+   10. EMPLOYEE VERIFICATION FLOW
+   ============================================================ */
+function startVerification(){
+  const emp = getEmployee(State.selectedEmployeeId);
+  if(!emp){ toast('Employee not selected.', '', 'err'); return; }
+  if(emp.pin){
+    const entered = document.getElementById('empPinInput').value.trim();
+    if(entered !== emp.pin){ toast('Invalid PIN.', 'Please re-enter the employee PIN.', 'err'); return; }
+  }
+  const scanner = document.getElementById('scannerEl');
+  const line = document.getElementById('scanStatusLine');
+  scanner.classList.add('scanning');
+  line.textContent = 'VERIFYING IDENTITY...';
+  clearTimeout(State.scanTimer);
+  State.scanTimer = setTimeout(()=>{
+    scanner.classList.remove('scanning');
+    scanner.classList.add('verified');
+    State.verified = true;
+    toast('Identity Verified', emp.name, '');
+    renderView();
+  }, 1200);
+}
+
+function doTimeIn(){
+  const emp = getEmployee(State.selectedEmployeeId);
+  if(!emp){ toast('Employee not selected.', '', 'err'); return; }
+  if(!State.verified){ toast('Please verify identity first.', '', 'err'); return; }
+  if(todaysOpenRecord(emp.id)){ toast('Already clocked in today.', '', 'err'); return; }
+  const existing = todaysRecord(emp.id);
+  if(existing && existing.timeOut){ toast('Already clocked out today.', 'Time in/out already completed for today.', 'err'); return; }
+
+  const settings = Store.settings();
+  const now = new Date();
+  const evalIn = Engine.evaluateTimeIn(now, settings);
+
+  const finish = (accepted)=>{
+    const record = {
+      id: uid('ATT'),
+      employeeId: emp.id,
+      employeeName: emp.name,
+      employeeCode: emp.employeeId,
+      date: fmtDateISO(now),
+      rawTimeIn: evalIn.rawStr,
+      officialTimeIn: evalIn.officialStr,
+      inStatus: evalIn.inStatus,
+      flaggedIn: evalIn.outsideEarliest && !accepted ? true : (evalIn.outsideEarliest ? true : false),
+      timeOut:false,
+      rawTimeOut:null, officialTimeOut:null, outStatus:null, flaggedOut:false,
+      overtimeMinutesRaw:0, breakMinutes:settings.breakMinutes,
+      regularMinutes:0, overtimeMinutes:0, regularPay:0, overtimePay:0, totalPay:0,
+      status:'Working', notes:'', demo:false,
+      createdAt:now.toISOString(), updatedAt:now.toISOString()
+    };
+    record.status = evalIn.inStatus==='Late' ? 'Late' : 'Working';
+    const all = Store.attendance();
+    all.push(record);
+    Store.saveAttendance(all);
+    logAudit('Time In', emp.name, record.id, '-', null, {rawTimeIn:record.rawTimeIn, officialTimeIn:record.officialTimeIn});
+    if(evalIn.inStatus==='Late'){
+      toast('⚠ Late Arrival', 'Time In: '+timeStrTo12(evalIn.rawStr), 'warn');
+    } else {
+      toast('✓ Attendance Recorded', 'Time In: '+timeStrTo12(evalIn.officialStr));
+    }
+    State.verified = false;
+    renderView();
+    showTimeInSuccess(record);
+  };
+
+  if(evalIn.outsideEarliest){
+    confirmDialog(
+      'Attendance outside accepted earliest time.',
+      'Raw time '+timeStrTo12(evalIn.rawStr)+' is earlier than the configured earliest time-in ('+timeStrTo12(settings.earliestTimeIn)+'). Accept this record and flag it for review, or cancel.',
+      ()=>finish(true)
+    );
+  } else {
+    finish(true);
+  }
+}
+
+function doTimeOut(){
+  const emp = getEmployee(State.selectedEmployeeId);
+  if(!emp){ toast('Employee not selected.', '', 'err'); return; }
+  if(!State.verified){ toast('Please verify identity first.', '', 'err'); return; }
+  const open = todaysOpenRecord(emp.id);
+  if(!open){ toast('Please complete Time In before recording Time Out.', '', 'err'); return; }
+
+  const settings = Store.settings();
+  const now = new Date();
+  const evalOut = Engine.evaluateTimeOut(now, settings);
+
+  const finish = ()=>{
+    const all = Store.attendance();
+    const idx = all.findIndex(r=>r.id===open.id);
+    const rec = all[idx];
+    rec.rawTimeOut = evalOut.rawStr;
+    rec.officialTimeOut = evalOut.officialStr;
+    rec.outStatus = evalOut.outStatus;
+    rec.flaggedOut = evalOut.flagged;
+    rec.overtimeMinutesRaw = evalOut.otMinutes;
+    rec.timeOut = true;
+
+    const totals = Engine.computeRecordTotals(rec, settings);
+    Object.assign(rec, totals);
+    rec.status = Engine.finalStatus(rec);
+    rec.updatedAt = now.toISOString();
+    all[idx] = rec;
+    Store.saveAttendance(all);
+    logAudit('Time Out', emp.name, rec.id, '-', null, {rawTimeOut:rec.rawTimeOut, overtimeMinutes:rec.overtimeMinutes});
+
+    if(evalOut.flagged){
+      toast('Clock-out is outside the normal accepted window.', 'Flagged for admin review.', 'warn');
+    } else if(evalOut.otMinutes>0){
+      toast('✓ Time Out Recorded', 'Overtime: '+minutesToHM(evalOut.otMinutes));
+    } else {
+      toast('✓ Time Out Recorded', 'Time Out: '+timeStrTo12(evalOut.officialStr));
+    }
+    State.verified = false;
+    renderView();
+    showTimeOutSuccess(rec, settings);
+  };
+
+  if(evalOut.flagged){
+    confirmDialog(
+      'Clock-out is outside the normal accepted window.',
+      'Raw time '+timeStrTo12(evalOut.rawStr)+' is later than the latest accepted time-out ('+timeStrTo12(settings.latestTimeOut)+'). This record will be saved and flagged for review.',
+      finish
+    );
+  } else {
+    finish();
+  }
+}
+
+function successIcon(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+}
+function showTimeInSuccess(record){
+  openModal(`
+    <div class="modal-body success-wrap">
+      <div class="success-check">${successIcon()}</div>
+      <div class="success-title">TIME IN RECORDED</div>
+      <div class="kv"><span class="k">Raw Time</span><span class="v">${timeStrTo12(record.rawTimeIn)}</span></div>
+      <div class="kv"><span class="k">Official Time</span><span class="v">${timeStrTo12(record.officialTimeIn)}</span></div>
+      <div class="kv"><span class="k">Status</span><span class="v">${statusBadge(record.inStatus==='Late'?'Late':record.inStatus)}</span></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-primary btn-block" data-close>Done</button></div>
+  `);
+}
+function showTimeOutSuccess(record, settings){
+  openModal(`
+    <div class="modal-body success-wrap">
+      <div class="success-check">${successIcon()}</div>
+      <div class="success-title">TIME OUT RECORDED</div>
+      <div class="kv"><span class="k">Raw Time Out</span><span class="v">${timeStrTo12(record.rawTimeOut)}</span></div>
+      <div class="kv"><span class="k">Regular End</span><span class="v">${timeStrTo12(settings.regularTimeOut)}</span></div>
+      <div class="kv"><span class="k">Regular Hours</span><span class="v">${minutesToHM(record.regularMinutes)}</span></div>
+      <div class="kv"><span class="k">Overtime</span><span class="v">${record.overtimeMinutes>0?minutesToHM(record.overtimeMinutes):'None'}</span></div>
+      <div class="kv" style="font-weight:700"><span class="k">Today's Pay</span><span class="v" style="color:var(--accent)">${money(record.totalPay)}</span></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-primary btn-block" data-close>Done</button></div>
+  `);
+}
+
+/* ============================================================
+   11. LIVE CLOCK / WORK TIMER
+   ============================================================ */
+function tickClock(){
+  const now = new Date();
+  const chip = document.getElementById('clockChipTxt');
+  if(chip) chip.textContent = fmtTime12(now);
+  const tt = document.getElementById('termTime');
+  if(tt) tt.textContent = fmtTime12(now);
+  const tg = document.getElementById('termGreeting');
+  if(tg) tg.textContent = greeting();
+}
+function tickLiveWork(){
+  if(State.view!=='attendance' || !State.selectedEmployeeId) return;
+  const open = todaysOpenRecord(State.selectedEmployeeId);
+  const el = document.getElementById('liveWorkTime');
+  if(!el) return;
+  if(open){
+    const [h,m] = open.officialTimeIn.split(':').map(Number);
+    const start = new Date(); start.setHours(h,m,0,0);
+    let diff = Math.max(0, Math.floor((Date.now()-start.getTime())/1000));
+    const hh = pad(Math.floor(diff/3600)), mm = pad(Math.floor((diff%3600)/60)), ss = pad(diff%60);
+    el.textContent = hh+':'+mm+':'+ss;
+  }
+}
+
+/* ============================================================
+   12. EMPLOYEES VIEW
+   ============================================================ */
+function renderEmployees(){
+  const employees = Store.employees();
+  return `
+  <div class="row" style="margin-bottom:16px">
+    <div class="search-input"><input type="text" id="empSearch" placeholder="Search employees..."></div>
+    <button class="btn btn-primary" id="addEmpBtn">+ Add Employee</button>
+  </div>
+  <div class="card" id="empTableWrap">${renderEmployeeTable(employees)}</div>
+  `;
+}
+function renderEmployeeTable(list){
+  if(list.length===0) return emptyState('No employees registered yet.', 'Click "Add Employee" to get started.');
+  return `<div class="table-wrap"><table class="responsive-table">
+    <thead><tr><th>Name</th><th>Employee ID</th><th>PIN</th><th>Status</th><th>Registered</th><th></th></tr></thead>
+    <tbody>${list.map(e=>`<tr>
+      <td data-label="Name">${esc(e.name)}${e.demo?'<span class="demo-tag">DEMO</span>':''}</td>
+      <td class="mono" data-label="Employee ID">${esc(e.employeeId)}</td>
+      <td data-label="PIN">${e.pin?'●●●●':'—'}</td>
+      <td data-label="Status"><span class="badge ${e.status==='Active'?'badge-present':'badge-rest'}"><span class="badge-dot"></span>${e.status}</span></td>
+      <td data-label="Registered">${fmtDateShort(e.dateRegistered)}</td>
+      <td class="row-actions-cell" data-label=""><div class="row-gap">
+        <button class="icon-btn" data-toggle-emp="${e.id}" title="${e.status==='Active'?'Deactivate':'Activate'}">${e.status==='Active'?'⏸':'▶'}</button>
+        <button class="icon-btn" data-edit-emp="${e.id}" title="Edit">${iconEdit()}</button>
+        <button class="icon-btn" data-del-emp="${e.id}" title="Delete">${iconTrash()}</button>
+      </div></td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+function employeeFormModal(existing){
+  const isEdit = !!existing;
+  openModal(`
+    <div class="modal-head"><h3>${isEdit?'Edit Employee':'Add Employee'}</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Full Name</label><input id="fName" value="${esc(existing?existing.name:'')}" placeholder="Juan Dela Cruz"></div>
+      <div class="field"><label>Employee ID</label><input id="fEmpId" value="${esc(existing?existing.employeeId:'')}" placeholder="EMP-004"></div>
+      <div class="field"><label>PIN (optional)</label><input id="fPin" value="${esc(existing?existing.pin||'':'')}" placeholder="4-digit PIN" maxlength="8"></div>
+      <div class="field"><label>Status</label>
+        <select id="fStatus"><option ${existing&&existing.status==='Active'?'selected':''}>Active</option><option ${existing&&existing.status==='Inactive'?'selected':''}>Inactive</option></select>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="saveEmpBtn">${isEdit?'Save Changes':'Register Employee'}</button></div>
+  `);
+  document.getElementById('saveEmpBtn').addEventListener('click', ()=>{
+    const name = document.getElementById('fName').value.trim();
+    const empId = document.getElementById('fEmpId').value.trim();
+    const pin = document.getElementById('fPin').value.trim();
+    const status = document.getElementById('fStatus').value;
+    if(!name || !empId){ toast('Name and Employee ID are required.', '', 'err'); return; }
+    const employees = Store.employees();
+    const dup = employees.find(e=> e.employeeId.toLowerCase()===empId.toLowerCase() && (!existing || e.id!==existing.id));
+    if(dup){ toast('Duplicate Employee ID.', 'Please use a unique Employee ID.', 'err'); return; }
+    const dupName = employees.find(e=> e.name.toLowerCase()===name.toLowerCase() && (!existing || e.id!==existing.id));
+    if(dupName){ toast('Duplicate employee name.', 'An employee with this name already exists.', 'warn'); }
+
+    if(isEdit){
+      const idx = employees.findIndex(e=>e.id===existing.id);
+      const prev = Object.assign({}, employees[idx]);
+      employees[idx] = Object.assign({}, employees[idx], {name, employeeId:empId, pin, status});
+      Store.saveEmployees(employees);
+      logAudit('Employee Modified', name, existing.id, '-', prev, employees[idx]);
+      toast('Employee updated', name);
+    } else {
+      const rec = {id:uid('EMP'), name, employeeId:empId, pin, status, dateRegistered:fmtDateISO(new Date()), demo:false};
+      employees.push(rec);
+      Store.saveEmployees(employees);
+      logAudit('Employee Registered', name, rec.id, '-', null, rec);
+      toast('Employee registered', name);
+    }
+    closeModal();
+    renderView();
+  });
+}
+
+/* ============================================================
+   13. ATTENDANCE CORRECTION
+   ============================================================ */
+function correctionModal(record){
+  openModal(`
+    <div class="modal-head"><h3>Correct Attendance</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="warn-box">Raw timestamps are always preserved. Corrections are recorded in the audit log.</div>
+      <div class="kv"><span class="k">Employee</span><span class="v">${esc(record.employeeName)}</span></div>
+      <div class="kv"><span class="k">Date</span><span class="v">${fmtDateShort(record.date)}</span></div>
+      <div class="kv"><span class="k">Raw In / Raw Out</span><span class="v">${record.rawTimeIn?timeStrTo12(record.rawTimeIn):'—'} / ${record.rawTimeOut?timeStrTo12(record.rawTimeOut):'—'}</span></div>
+      <div class="divider"></div>
+      <div class="field"><label>Official Time In</label><input type="time" id="cTimeIn" value="${record.officialTimeIn||''}"></div>
+      <div class="field"><label>Official Time Out</label><input type="time" id="cTimeOut" value="${record.officialTimeOut||''}"></div>
+      <div class="field"><label>Break (minutes)</label><input type="number" id="cBreak" value="${record.breakMinutes!==undefined?record.breakMinutes:60}" min="0"></div>
+      <div class="field"><label>Status</label>
+        <select id="cStatus">${['Present','Late','Overtime','Incomplete','Flagged','Leave','Rest Day'].map(s=>'<option '+(record.status===s?'selected':'')+'>'+s+'</option>').join('')}</select>
+      </div>
+      <div class="field"><label>Correction Reason (required)</label><textarea id="cReason" rows="2" placeholder="e.g. Forgot to clock out."></textarea></div>
+      <div class="field"><label>Notes</label><textarea id="cNotes" rows="2">${esc(record.notes||'')}</textarea></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="saveCorrectionBtn">Save Correction</button></div>
+  `);
+  document.getElementById('saveCorrectionBtn').addEventListener('click', ()=>{
+    const reason = document.getElementById('cReason').value.trim();
+    if(!reason){ toast('Correction reason is required.', '', 'err'); return; }
+    requireAdminPin(()=>{
+      const settings = Store.settings();
+      const all = Store.attendance();
+      const idx = all.findIndex(r=>r.id===record.id);
+      const prev = Object.assign({}, all[idx]);
+      const rec = all[idx];
+      rec.officialTimeIn = document.getElementById('cTimeIn').value || rec.officialTimeIn;
+      rec.officialTimeOut = document.getElementById('cTimeOut').value || rec.officialTimeOut;
+      const breakMins = Number(document.getElementById('cBreak').value)||0;
+      rec.timeOut = !!rec.officialTimeOut;
+      if(rec.timeOut){
+        const regOutM = timeStrToMinutes(settings.regularTimeOut);
+        const outM = timeStrToMinutes(rec.officialTimeOut);
+        rec.overtimeMinutesRaw = Math.max(outM-regOutM, 0);
+        const totals = Engine.computeRecordTotals(rec, settings, breakMins);
+        Object.assign(rec, totals);
+      }
+      rec.status = document.getElementById('cStatus').value;
+      rec.notes = document.getElementById('cNotes').value.trim();
+      rec.updatedAt = new Date().toISOString();
+      all[idx] = rec;
+      Store.saveAttendance(all);
+      logAudit('Attendance Modified', rec.employeeName, rec.id, reason, prev, rec);
+      toast('Attendance corrected', reason);
+      closeModal();
+      renderView();
+    });
+  });
+}
+function viewRecordModal(record){
+  openModal(`
+    <div class="modal-head"><h3>Attendance Record</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="kv"><span class="k">Record ID</span><span class="v">${esc(record.id)}</span></div>
+      <div class="kv"><span class="k">Employee</span><span class="v">${esc(record.employeeName)} (${esc(record.employeeCode)})</span></div>
+      <div class="kv"><span class="k">Date</span><span class="v">${fmtDateLong(record.date)}</span></div>
+      <div class="kv"><span class="k">Raw Time In</span><span class="v">${record.rawTimeIn?timeStrTo12(record.rawTimeIn):'—'}</span></div>
+      <div class="kv"><span class="k">Official Time In</span><span class="v">${record.officialTimeIn?timeStrTo12(record.officialTimeIn):'—'}</span></div>
+      <div class="kv"><span class="k">Raw Time Out</span><span class="v">${record.rawTimeOut?timeStrTo12(record.rawTimeOut):'—'}</span></div>
+      <div class="kv"><span class="k">Official Time Out</span><span class="v">${record.officialTimeOut?timeStrTo12(record.officialTimeOut):'—'}</span></div>
+      <div class="kv"><span class="k">Break</span><span class="v">${record.breakMinutes||0} min</span></div>
+      <div class="kv"><span class="k">Regular Hours</span><span class="v">${((record.regularMinutes||0)/60).toFixed(2)}h</span></div>
+      <div class="kv"><span class="k">Overtime</span><span class="v">${minutesToHM(record.overtimeMinutes||0)} (${((record.overtimeMinutes||0)/60).toFixed(2)}h)</span></div>
+      <div class="kv"><span class="k">Regular Pay</span><span class="v">${money(record.regularPay)}</span></div>
+      <div class="kv"><span class="k">Overtime Pay</span><span class="v">${money(record.overtimePay)}</span></div>
+      <div class="kv"><span class="k">Total Pay</span><span class="v">${money(record.totalPay)}</span></div>
+      <div class="kv"><span class="k">Status</span><span class="v">${statusBadge(record.status)}</span></div>
+      <div class="kv"><span class="k">Notes</span><span class="v">${esc(record.notes||'—')}</span></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Close</button></div>
+  `);
+}
+
+/* ============================================================
+   14. PAYROLL VIEW + PAYSLIP
+   ============================================================ */
+function renderPayroll(){
+  const employees = Store.employees();
+  const empId = State.payrollEmployeeId || (employees[0] && employees[0].id) || '';
+  const year = State.payrollYear, month = State.payrollMonth;
+  const recs = employees.length ? monthRecords(year, month, empId) : [];
+  const settings = Store.settings();
+
+  const daysPresent = recs.filter(r=>r.timeOut).length;
+  const regHours = recs.reduce((a,r)=>a+(r.regularMinutes||0),0)/60;
+  const otMinutes = recs.reduce((a,r)=>a+(r.overtimeMinutes||0),0);
+  const regPay = recs.reduce((a,r)=>a+(r.regularPay||0),0);
+  const otPay = recs.reduce((a,r)=>a+(r.overtimePay||0),0);
+  const gross = regPay+otPay;
+
+  const monthOptions = Array.from({length:12},(_,i)=>i).map(i=>'<option value="'+i+'"'+(i===month?' selected':'')+'>'+new Date(2000,i,1).toLocaleDateString('en-US',{month:'long'})+'</option>').join('');
+  const years = [];
+  for(let y=new Date().getFullYear()-2; y<=new Date().getFullYear()+1; y++) years.push(y);
+  const yearOptions = years.map(y=>'<option value="'+y+'"'+(y===year?' selected':'')+'>'+y+'</option>').join('');
+
+  return `
+  <div class="card" style="margin-bottom:16px">
+    <div class="row-gap">
+      <select id="payEmployee" style="width:auto;min-width:190px">
+        ${employees.map(e=>'<option value="'+e.id+'"'+(e.id===empId?' selected':'')+'>'+esc(e.name)+'</option>').join('')}
+      </select>
+      <select id="payMonth" style="width:auto">${monthOptions}</select>
+      <select id="payYear" style="width:auto">${yearOptions}</select>
+      <button class="btn btn-primary" id="genPayslipBtn" style="margin-left:auto">🧾 Generate Payslip</button>
+    </div>
+  </div>
+
+  ${employees.length===0 ? emptyState('No employees to generate payroll for.') : `
+  <div class="grid grid-4" style="margin-bottom:16px">
+    ${statCard('Days Present', daysPresent)}
+    ${statCard('Regular Hours', regHours.toFixed(1)+'h')}
+    ${statCard('Overtime', minutesToHM(otMinutes))}
+    ${statCard('Gross Pay', money(gross))}
+  </div>
+  <div class="card">
+    <div class="section-title">Monthly Payroll Summary</div>
+    <div class="section-desc">${new Date(year,month,1).toLocaleDateString('en-US',{month:'long', year:'numeric'})} · ${getEmployee(empId)?getEmployee(empId).name:''}</div>
+    <div class="kv"><span class="k">Days Present</span><span class="v">${daysPresent}</span></div>
+    <div class="kv"><span class="k">Regular Hours</span><span class="v">${regHours.toFixed(2)}h</span></div>
+    <div class="kv"><span class="k">Overtime Hours</span><span class="v">${minutesToHM(otMinutes)}</span></div>
+    <div class="kv"><span class="k">Regular Pay</span><span class="v">${money(regPay)}</span></div>
+    <div class="kv"><span class="k">Overtime Pay</span><span class="v">${money(otPay)}</span></div>
+    <div class="kv"><span class="k">Estimated Gross Pay</span><span class="v" style="font-size:16px;color:var(--accent)">${money(gross)}</span></div>
+    <div class="divider"></div>
+    ${recs.length? attendanceTable(recs.slice().sort((a,b)=>a.date.localeCompare(b.date)), false) : emptyState('No attendance records for this period.')}
+  </div>
+  `}
+  `;
+}
+function generatePayslip(){
+  const emp = getEmployee(State.payrollEmployeeId);
+  if(!emp){ toast('Select an employee first.', '', 'err'); return; }
+  const year = State.payrollYear, month = State.payrollMonth;
+  const recs = monthRecords(year, month, emp.id);
+  const settings = Store.settings();
+  const daysPresent = recs.filter(r=>r.timeOut).length;
+  const regHours = recs.reduce((a,r)=>a+(r.regularMinutes||0),0)/60;
+  const otMinutes = recs.reduce((a,r)=>a+(r.overtimeMinutes||0),0);
+  const regPay = recs.reduce((a,r)=>a+(r.regularPay||0),0);
+  const otPay = recs.reduce((a,r)=>a+(r.overtimePay||0),0);
+  const gross = regPay+otPay;
+  const period = new Date(year,month,1).toLocaleDateString('en-US',{month:'long', year:'numeric'});
+
+  openModal(`
+    <div class="modal-head"><h3>Payslip Preview</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body" id="payslipArea">
+      <div style="border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="text-align:center;margin-bottom:16px">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:17px">PAYSLIP</div>
+          <div style="color:var(--text-dim);font-size:12.5px">${esc(period)}</div>
+        </div>
+        <div class="kv"><span class="k">Employee Name</span><span class="v">${esc(emp.name)}</span></div>
+        <div class="kv"><span class="k">Employee ID</span><span class="v">${esc(emp.employeeId)}</span></div>
+        <div class="kv"><span class="k">Payroll Period</span><span class="v">${esc(period)}</span></div>
+        <div class="kv"><span class="k">Days Worked</span><span class="v">${daysPresent}</span></div>
+        <div class="kv"><span class="k">Regular Hours</span><span class="v">${regHours.toFixed(2)}h</span></div>
+        <div class="kv"><span class="k">Overtime Hours</span><span class="v">${(otMinutes/60).toFixed(2)}h</span></div>
+        <div class="kv"><span class="k">Daily Rate</span><span class="v">${money(settings.dailySalary)}</span></div>
+        <div class="kv"><span class="k">Hourly Rate</span><span class="v">${money(Engine.hourlyRate(settings))}</span></div>
+        <div class="kv"><span class="k">Regular Pay</span><span class="v">${money(regPay)}</span></div>
+        <div class="kv"><span class="k">Overtime Pay</span><span class="v">${money(otPay)}</span></div>
+        <div class="kv" style="font-weight:700"><span class="k">Gross Pay</span><span class="v" style="color:var(--accent)">${money(gross)}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:40px">
+          <div style="text-align:center;width:45%"><div style="border-top:1px solid var(--text-faint);padding-top:6px;font-size:11.5px">Employee Signature</div></div>
+          <div style="text-align:center;width:45%"><div style="border-top:1px solid var(--text-faint);padding-top:6px;font-size:11.5px">Authorized Signature</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Close</button><button class="btn btn-primary" id="printPayslipBtn">🖨 Print Payslip</button></div>
+  `);
+  document.getElementById('printPayslipBtn').addEventListener('click', ()=> window.print());
+}
+
+/* ============================================================
+   15. CALENDAR VIEW
+   ============================================================ */
+function renderCalendar(){
+  const employees = Store.employees();
+  const empId = State.calEmployeeId;
+  const year = State.calYear, month = State.calMonth;
+  const recs = monthRecords(year, month, empId==='all'?null:empId);
+  const recByDate = {};
+  recs.forEach(r=>{ recByDate[r.date] = recByDate[r.date]||[]; recByDate[r.date].push(r); });
+  const holidays = Store.holidays().filter(h=>h.date.startsWith(year+'-'+pad(month+1)));
+  const holByDate = {}; holidays.forEach(h=>holByDate[h.date]=h);
+
+  const firstDay = new Date(year,month,1).getDay();
+  const daysInMonth = new Date(year,month+1,0).getDate();
+  const todayIso = fmtDateISO(new Date());
+  const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const settings = Store.settings();
+
+  let cells = '';
+  for(let i=0;i<firstDay;i++) cells += '<div class="cal-cell empty"></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const iso = year+'-'+pad(month+1)+'-'+pad(d);
+    const dayRecs = recByDate[iso]||[];
+    const isRest = !settings.workdays.includes(new Date(iso+'T00:00:00').getDay());
+    const hol = holByDate[iso];
+    let dotColor = 'transparent';
+    if(hol) dotColor = 'var(--leave)';
+    else if(dayRecs.length){
+      const st = dayRecs[0].status;
+      dotColor = st==='Late'?'var(--warn)':st==='Overtime'?'var(--leave)':(st==='Flagged'||st==='Incomplete')?'var(--danger)':'var(--accent)';
+    } else if(isRest) dotColor = 'var(--rest)';
+    cells += `<div class="cal-cell${iso===todayIso?' today':''}" data-cal-day="${iso}">
+      <div class="d">${d}</div>
+      <div class="dot" style="background:${dotColor}"></div>
+    </div>`;
+  }
+
+  return `
+  <div class="card" style="margin-bottom:16px">
+    <div class="row-gap" style="margin-bottom:16px">
+      <select id="calEmployee" style="width:auto;min-width:170px">
+        <option value="all"${empId==='all'?' selected':''}>All Employees</option>
+        ${employees.map(e=>'<option value="'+e.id+'"'+(e.id===empId?' selected':'')+'>'+esc(e.name)+'</option>').join('')}
+      </select>
+      <div class="row-gap" style="margin-left:auto">
+        <button class="icon-btn" id="calPrev">←</button>
+        <div class="section-title" style="margin:0;min-width:150px;text-align:center">${new Date(year,month,1).toLocaleDateString('en-US',{month:'long', year:'numeric'})}</div>
+        <button class="icon-btn" id="calNext">→</button>
+      </div>
+    </div>
+    <div class="cal-grid" style="margin-bottom:6px">${dows.map(d=>'<div class="cal-dow">'+d+'</div>').join('')}</div>
+    <div class="cal-grid">${cells}</div>
+    <div class="pill-list" style="margin-top:16px">
+      <span class="pill">🟢 Present</span><span class="pill">🟡 Late</span><span class="pill">🟣 Overtime</span>
+      <span class="pill">🔵 Holiday/Leave</span><span class="pill">⚪ Rest Day</span><span class="pill">🟠 Incomplete/Flagged</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">Holiday Settings</div>
+    <div class="section-desc">Holidays are shown separately on the calendar.</div>
+    <div class="row-gap" style="margin-bottom:14px">
+      <input type="text" id="holName" placeholder="Holiday name" style="max-width:200px">
+      <input type="date" id="holDate" style="max-width:170px">
+      <select id="holType" style="max-width:200px"><option>Regular Holiday</option><option>Special Non-Working Holiday</option><option>Optional Holiday</option></select>
+      <button class="btn btn-primary btn-sm" id="addHolBtn">+ Add Holiday</button>
+    </div>
+    ${renderHolidayTable()}
+  </div>
+  `;
+}
+function renderHolidayTable(){
+  const list = Store.holidays().slice().sort((a,b)=>a.date.localeCompare(b.date));
+  if(list.length===0) return emptyState('No holidays configured.');
+  return `<div class="table-wrap"><table class="responsive-table"><thead><tr><th>Date</th><th>Name</th><th>Type</th><th></th></tr></thead>
+  <tbody>${list.map(h=>`<tr><td data-label="Date">${fmtDateShort(h.date)}</td><td data-label="Name">${esc(h.name)}</td><td data-label="Type">${esc(h.type)}</td>
+  <td class="row-actions-cell" data-label=""><button class="icon-btn" data-del-hol="${h.id}">${iconTrash()}</button></td></tr>`).join('')}</tbody></table></div>`;
+}
+
+/* ============================================================
+   16. LEAVE MANAGEMENT
+   ============================================================ */
+function renderLeave(){
+  const employees = Store.employees();
+  const leaves = Store.leave().slice().sort((a,b)=>b.date.localeCompare(a.date));
+  return `
+  <div class="card" style="margin-bottom:16px">
+    <div class="section-title">New Leave Request</div>
+    <div class="grid grid-4">
+      <div class="field"><label>Employee</label><select id="lvEmp">${employees.map(e=>'<option value="'+e.id+'">'+esc(e.name)+'</option>').join('')}</select></div>
+      <div class="field"><label>Date</label><input type="date" id="lvDate" value="${fmtDateISO(new Date())}"></div>
+      <div class="field"><label>Leave Type</label><select id="lvType"><option>Vacation Leave</option><option>Sick Leave</option><option>Emergency Leave</option><option>Other Leave</option></select></div>
+      <div class="field"><label>Status</label><select id="lvStatus"><option>Pending</option><option>Approved</option><option>Rejected</option></select></div>
+    </div>
+    <div class="field"><label>Reason</label><input type="text" id="lvReason" placeholder="Reason for leave"></div>
+    <button class="btn btn-primary" id="addLeaveBtn">Submit Leave Request</button>
+  </div>
+  <div class="card">
+    <div class="section-title">Leave Records</div>
+    ${leaves.length===0? emptyState('No leave records yet.') : `<div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Employee</th><th>Type</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+      <tbody>${leaves.map(l=>{
+        const emp = getEmployee(l.employeeId);
+        return `<tr><td>${fmtDateShort(l.date)}</td><td>${esc(emp?emp.name:'—')}</td><td>${esc(l.type)}</td><td>${esc(l.reason||'—')}</td>
+        <td><span class="badge ${l.status==='Approved'?'badge-present':l.status==='Rejected'?'badge-absent':'badge-late'}"><span class="badge-dot"></span>${l.status}</span></td>
+        <td><button class="icon-btn" data-del-leave="${l.id}">${iconTrash()}</button></td></tr>`;
+      }).join('')}</tbody></table></div>`}
+  </div>
+  `;
+}
+
+/* ============================================================
+   17. AUDIT LOG VIEW
+   ============================================================ */
+function renderAudit(){
+  const logs = Store.audit();
+  return `
+  <div class="card">
+    <div class="row" style="margin-bottom:14px">
+      <div class="section-title" style="margin-bottom:0">Audit Log</div>
+      <input type="text" id="auditSearch" placeholder="Search audit log..." style="max-width:240px">
+    </div>
+    <div id="auditTableWrap">${renderAuditTable(logs)}</div>
+  </div>
+  `;
+}
+function renderAuditTable(logs){
+  if(logs.length===0) return emptyState('No audit entries yet.');
+  return `<div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Time</th><th>Action</th><th>Employee</th><th>Record</th><th>Reason</th></tr></thead>
+    <tbody>${logs.slice(0,300).map(l=>`<tr>
+      <td>${fmtDateShort(l.date)}</td><td class="mono">${l.time}</td><td>${esc(l.action)}</td>
+      <td>${esc(l.employee)}</td><td class="mono">${esc(l.recordId)}</td><td>${esc(l.reason)}</td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+
+/* ============================================================
+   18. SETTINGS VIEW
+   ============================================================ */
+function renderSettings(){
+  const s = Store.settings();
+  const app = Store.app();
+  const dowLabels = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  return `
+  <div class="grid grid-2" style="align-items:start">
+    <div class="card">
+      <div class="section-title">Work Schedule</div>
+      <div class="field"><label>Regular Time In</label><input type="time" id="sRegIn" value="${s.regularTimeIn}"></div>
+      <div class="field"><label>Regular Time Out</label><input type="time" id="sRegOut" value="${s.regularTimeOut}"></div>
+      <div class="field"><label>Earliest Time In</label><input type="time" id="sEarliest" value="${s.earliestTimeIn}"></div>
+      <div class="field"><label>Early Arrival Cutoff</label><input type="time" id="sCutoff" value="${s.earlyArrivalCutoff}"></div>
+      <div class="field"><label>Latest Time Out</label><input type="time" id="sLatest" value="${s.latestTimeOut}"></div>
+      <div class="field">
+        <label>Break Mode</label>
+        <select id="sBreakMode"><option value="auto" ${s.breakMode==='auto'?'selected':''}>Automatic (fixed duration)</option><option value="manual" ${s.breakMode==='manual'?'selected':''}>Manual tracking</option></select>
+      </div>
+      <div class="field"><label>Break Duration (minutes)</label><input type="number" id="sBreak" value="${s.breakMinutes}" min="0"></div>
+      <div class="field"><label>Paid Working Minutes / Day</label><input type="number" id="sPaidMin" value="${s.paidWorkingMinutes}" min="1"></div>
+      <div class="field"><label>Workdays</label>
+        <div class="pill-list">${dowLabels.map((l,i)=>'<span class="pill'+(s.workdays.includes(i)?' on':'')+'" data-dow="'+i+'">'+l+'</span>').join('')}</div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">Payroll</div>
+        <div class="field"><label>Daily Salary (₱)</label><input type="number" id="sSalary" value="${s.dailySalary}" min="0" step="0.01"></div>
+        <div class="field"><label>Overtime Multiplier</label><input type="number" id="sOtMult" value="${s.otMultiplier}" min="1" step="0.05"></div>
+        <div class="kv"><span class="k">Computed Hourly Rate</span><span class="v">${money(Engine.hourlyRate(s))}/hour</span></div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">Security</div>
+        <div class="field"><label>Change Admin PIN</label><input type="password" id="sNewPin" placeholder="New Admin PIN"></div>
+        <div class="help-text">This is a local browser app — this PIN provides basic protection, not enterprise-grade security.</div>
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">Appearance</div>
+        <div class="theme-toggle" style="max-width:220px">
+          <button data-theme-btn="dark" class="${app.theme==='dark'?'active':''}">🌙 Dark</button>
+          <button data-theme-btn="light" class="${app.theme==='light'?'active':''}">☀️ Light</button>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" id="saveSettingsBtn" style="margin-bottom:16px">Save Settings</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="section-title">Backup &amp; Data</div>
+    <div class="section-desc">Export or restore all employees, attendance, payroll settings, holidays, leave, and audit logs.</div>
+    <div class="row-gap" style="margin-bottom:14px">
+      <button class="btn" id="exportBackupBtn">⬇ Export Backup (JSON)</button>
+      <button class="btn" id="importBackupBtn">⬆ Import Backup</button>
+      <input type="file" id="importFileInput" accept="application/json" class="hidden">
+      <button class="btn" id="loadDemoBtn">Load Demo Data</button>
+      <button class="btn" id="removeDemoBtn">Remove Demo Data</button>
+    </div>
+    <div class="danger-box">Clearing all data permanently deletes every employee, attendance record, payroll setting, and audit entry stored in this browser.</div>
+    <button class="btn btn-danger" id="clearAllBtn">Clear All Data</button>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="section-title">Installable App Experience</div>
+    <div class="help-text" style="font-size:12.5px;line-height:1.6">
+      This app is fully responsive and works great "pinned" to a phone home screen via your browser's
+      "Add to Home Screen" option — it will open full-screen like an app. A true installable Progressive Web App
+      (with offline install prompts and a standalone app icon) requires two extra files, <span class="mono">manifest.json</span>
+      and <span class="mono">service-worker.js</span>, served alongside this page. Bundling those isn't possible inside a single
+      standalone HTML file, so — to preserve the one-file requirement — this app intentionally ships as a single
+      <span class="mono">.html</span> file without them.
+    </div>
+  </div>
+  `;
+}
+
+/* ============================================================
+   19. ADMIN PIN GATE
+   ============================================================ */
+function requireAdminPin(onSuccess){
+  openModal(`
+    <div class="modal-head"><h3>Admin PIN Required</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>Enter Admin PIN</label><input type="password" id="adminPinInput" placeholder="••••" autofocus></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="confirmPinBtn">Confirm</button></div>
+  `);
+  const submit = ()=>{
+    const val = document.getElementById('adminPinInput').value;
+    const app = Store.app();
+    if(val === app.adminPin){
+      closeModal();
+      onSuccess();
+    } else {
+      toast('Invalid PIN.', '', 'err');
+    }
+  };
+  document.getElementById('confirmPinBtn').addEventListener('click', submit);
+  document.getElementById('adminPinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+}
+function confirmDialog(title, msg, onConfirm){
+  openModal(`
+    <div class="modal-head"><h3>${esc(title)}</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body"><div class="warn-box">${esc(msg)}</div></div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="confirmOkBtn">Accept &amp; Continue</button></div>
+  `);
+  document.getElementById('confirmOkBtn').addEventListener('click', ()=>{ closeModal(); onConfirm(); });
+}
+function confirmDelete(title, msg, onConfirm){
+  openModal(`
+    <div class="modal-head"><h3>${esc(title)}</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body"><div class="danger-box">${esc(msg)}</div></div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-danger" id="confirmDelBtn">Delete</button></div>
+  `);
+  document.getElementById('confirmDelBtn').addEventListener('click', ()=>{ closeModal(); onConfirm(); });
+}
+
+/* ============================================================
+   20. MODAL PLUMBING
+   ============================================================ */
+function openModal(innerHtml, wide){
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `<div class="overlay" id="overlayEl"><div class="modal${wide?' wide':''}">${innerHtml}</div></div>`;
+  root.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', closeModal));
+  document.getElementById('overlayEl').addEventListener('click', e=>{ if(e.target.id==='overlayEl') closeModal(); });
+}
+function closeModal(){ document.getElementById('modalRoot').innerHTML=''; }
+
+/* ============================================================
+   21. BACKUP / RESTORE / CSV / DEMO
+   ============================================================ */
+function exportBackup(){
+  const data = {
+    version:1, exportedAt:new Date().toISOString(),
+    employees:Store.employees(), attendanceRecords:Store.attendance(), attendanceSettings:Store.settings(),
+    holidays:Store.holidays(), leaveRecords:Store.leave(), auditLogs:Store.audit(), appSettings:Store.app()
+  };
+  downloadFile('attendance-backup-'+fmtDateISO(new Date())+'.json', JSON.stringify(data,null,2), 'application/json');
+  toast('Backup exported');
+}
+function importBackup(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const data = JSON.parse(reader.result);
+      if(!data || !Array.isArray(data.employees) || !Array.isArray(data.attendanceRecords)){
+        toast('Invalid backup file.', 'Missing required fields.', 'err'); return;
+      }
+      Store.saveEmployees(data.employees||[]);
+      Store.saveAttendance(data.attendanceRecords||[]);
+      Store.saveSettings(Object.assign({}, DEFAULT_SETTINGS, data.attendanceSettings||{}));
+      Store.saveHolidays(data.holidays||[]);
+      Store.saveLeave(data.leaveRecords||[]);
+      Store.saveAudit(data.auditLogs||[]);
+      Store.saveApp(Object.assign({}, DEFAULT_APP, data.appSettings||{}));
+      toast('Backup imported successfully');
+      applyTheme();
+      boot();
+    }catch(e){
+      toast('Invalid backup file.', 'Could not parse JSON.', 'err');
+    }
+  };
+  reader.readAsText(file);
+}
+function exportCsv(){
+  const recs = Store.attendance();
+  const headers = ['Date','Employee','EmployeeID','RawIn','OfficialIn','RawOut','OfficialOut','BreakMinutes','RegularHours','OvertimeMinutes','RegularPay','OvertimePay','TotalPay','Status','Notes'];
+  const rows = recs.map(r=>[r.date,r.employeeName,r.employeeCode,r.rawTimeIn,r.officialTimeIn,r.rawTimeOut,r.officialTimeOut,r.breakMinutes,((r.regularMinutes||0)/60).toFixed(2),r.overtimeMinutes||0,(r.regularPay||0).toFixed(2),(r.overtimePay||0).toFixed(2),(r.totalPay||0).toFixed(2),r.status,r.notes||'']);
+  const csv = [headers.join(','), ...rows.map(row=>row.map(v=>'"'+String(v===undefined||v===null?'':v).replace(/"/g,'""')+'"').join(','))].join('\n');
+  downloadFile('attendance-export-'+fmtDateISO(new Date())+'.csv', csv, 'text/csv');
+  toast('CSV exported');
+}
+function downloadFile(filename, content, mime){
+  const blob = new Blob([content], {type:mime});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+function loadDemoData(){
+  const employees = Store.employees();
+  if(employees.some(e=>e.demo)){ toast('Demo data already loaded.'); return; }
+  const settings = Store.settings();
+  const demoEmp = {id:uid('EMP'), name:'Maria Santos (Demo)', employeeId:'DEMO-001', pin:'', status:'Active', dateRegistered:fmtDateISO(new Date()), demo:true};
+  employees.push(demoEmp);
+  Store.saveEmployees(employees);
+
+  const all = Store.attendance();
+  const today = new Date();
+  const patterns = [
+    {inH:7,inM:20,outH:17,outM:0}, {inH:8,inM:0,outH:17,outM:0}, {inH:8,inM:17,outH:17,outM:5},
+    {inH:7,inM:45,outH:17,outM:30}, {inH:8,inM:5,outH:17,outM:0}, {inH:7,inM:5,outH:16,outM:55},
+    {inH:8,inM:0,outH:17,outM:40}, {inH:7,inM:30,outH:17,outM:0}, {inH:8,inM:22,outH:17,outM:0},
+    {inH:8,inM:0,outH:17,outM:15}
+  ];
+  for(let i=0;i<10;i++){
+    const d = new Date(today); d.setDate(d.getDate()-i-1);
+    const dow = d.getDay();
+    if(!settings.workdays.includes(dow)) continue;
+    const p = patterns[i%patterns.length];
+    const rawIn = new Date(d); rawIn.setHours(p.inH,p.inM,0,0);
+    const rawOut = new Date(d); rawOut.setHours(p.outH,p.outM,0,0);
+    const evalIn = Engine.evaluateTimeIn(rawIn, settings);
+    const evalOut = Engine.evaluateTimeOut(rawOut, settings);
+    const rec = {
+      id:uid('ATT'), employeeId:demoEmp.id, employeeName:demoEmp.name, employeeCode:demoEmp.employeeId,
+      date:fmtDateISO(d), rawTimeIn:evalIn.rawStr, officialTimeIn:evalIn.officialStr, inStatus:evalIn.inStatus, flaggedIn:evalIn.outsideEarliest,
+      timeOut:true, rawTimeOut:evalOut.rawStr, officialTimeOut:evalOut.officialStr, outStatus:evalOut.outStatus, flaggedOut:evalOut.flagged,
+      overtimeMinutesRaw:evalOut.otMinutes, breakMinutes:settings.breakMinutes,
+      notes:'', demo:true, createdAt:d.toISOString(), updatedAt:d.toISOString()
+    };
+    const totals = Engine.computeRecordTotals(rec, settings);
+    Object.assign(rec, totals);
+    rec.status = Engine.finalStatus(rec);
+    all.push(rec);
+  }
+  Store.saveAttendance(all);
+  toast('Demo data loaded', '10 sample attendance records added.');
+  renderView();
+}
+function removeDemoData(){
+  Store.saveEmployees(Store.employees().filter(e=>!e.demo));
+  Store.saveAttendance(Store.attendance().filter(r=>!r.demo));
+  toast('Demo data removed');
+  renderView();
+}
+
+/* ============================================================
+   22. THEME
+   ============================================================ */
+function applyTheme(){
+  const app = Store.app();
+  document.documentElement.setAttribute('data-theme', app.theme);
+}
+function setTheme(t){
+  const app = Store.app(); app.theme = t; Store.saveApp(app);
+  applyTheme();
+  renderNav();
+  if(document.getElementById('viewRoot').innerHTML) renderView();
+}
+
+/* ============================================================
+   23. EVENT BINDING (delegated per render)
+   ============================================================ */
+function bindViewEvents(){
+  const root = document.getElementById('viewRoot');
+
+  root.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click', ()=>setView(b.dataset.goto)));
+
+  // ---- Attendance / terminal ----
+  const empSelect = document.getElementById('empSelect');
+  if(empSelect) empSelect.addEventListener('change', ()=>{
+    State.selectedEmployeeId = empSelect.value || null;
+    State.verified = false;
+    const app = Store.app(); app.lastEmployeeId = State.selectedEmployeeId; Store.saveApp(app);
+    renderView();
+  });
+  const verifyBtn = document.getElementById('verifyBtn');
+  if(verifyBtn) verifyBtn.addEventListener('click', startVerification);
+  const timeInBtn = document.getElementById('timeInBtn');
+  if(timeInBtn) timeInBtn.addEventListener('click', doTimeIn);
+  const timeOutBtn = document.getElementById('timeOutBtn');
+  if(timeOutBtn) timeOutBtn.addEventListener('click', doTimeOut);
+
+  const attSearch = document.getElementById('attSearch');
+  if(attSearch) attSearch.addEventListener('input', ()=>{ State.attFilters.q = attSearch.value; refreshAttTable(); });
+  const attFilterEmployee = document.getElementById('attFilterEmployee');
+  if(attFilterEmployee) attFilterEmployee.addEventListener('change', ()=>{ State.attFilters.employee = attFilterEmployee.value; refreshAttTable(); });
+  const attFilterStatus = document.getElementById('attFilterStatus');
+  if(attFilterStatus) attFilterStatus.addEventListener('change', ()=>{ State.attFilters.status = attFilterStatus.value; refreshAttTable(); });
+  const attFilterMonth = document.getElementById('attFilterMonth');
+  if(attFilterMonth) attFilterMonth.addEventListener('change', ()=>{ State.attFilters.month = attFilterMonth.value; refreshAttTable(); });
+  const exportCsvBtn = document.getElementById('exportCsvBtn');
+  if(exportCsvBtn) exportCsvBtn.addEventListener('click', exportCsv);
+
+  root.querySelectorAll('[data-view-rec]').forEach(b=>b.addEventListener('click', ()=>{
+    const rec = Store.attendance().find(r=>r.id===b.dataset.viewRec); if(rec) viewRecordModal(rec);
+  }));
+  root.querySelectorAll('[data-edit-rec]').forEach(b=>b.addEventListener('click', ()=>{
+    requireAdminPin(()=>{ const rec = Store.attendance().find(r=>r.id===b.dataset.editRec); if(rec) correctionModal(rec); });
+  }));
+  root.querySelectorAll('[data-del-rec]').forEach(b=>b.addEventListener('click', ()=>{
+    requireAdminPin(()=>{
+      confirmDelete('Delete Attendance Record', 'This will permanently remove this attendance record.', ()=>{
+        const rec = Store.attendance().find(r=>r.id===b.dataset.delRec);
+        Store.saveAttendance(Store.attendance().filter(r=>r.id!==b.dataset.delRec));
+        logAudit('Attendance Deleted', rec?rec.employeeName:'-', b.dataset.delRec, 'Deleted by admin', rec, null);
+        toast('Record deleted');
+        renderView();
+      });
+    });
+  }));
+
+  // ---- Employees ----
+  const addEmpBtn = document.getElementById('addEmpBtn');
+  if(addEmpBtn) addEmpBtn.addEventListener('click', ()=>employeeFormModal(null));
+  const empSearch = document.getElementById('empSearch');
+  if(empSearch) empSearch.addEventListener('input', ()=>{
+    const q = empSearch.value.toLowerCase();
+    const list = Store.employees().filter(e=>e.name.toLowerCase().includes(q) || e.employeeId.toLowerCase().includes(q));
+    document.getElementById('empTableWrap').innerHTML = renderEmployeeTable(list);
+    bindViewEvents();
+  });
+  root.querySelectorAll('[data-edit-emp]').forEach(b=>b.addEventListener('click', ()=>{
+    requireAdminPin(()=>{ const e = getEmployee(b.dataset.editEmp); if(e) employeeFormModal(e); });
+  }));
+  root.querySelectorAll('[data-toggle-emp]').forEach(b=>b.addEventListener('click', ()=>{
+    const employees = Store.employees();
+    const idx = employees.findIndex(e=>e.id===b.dataset.toggleEmp);
+    const prev = Object.assign({},employees[idx]);
+    employees[idx].status = employees[idx].status==='Active'?'Inactive':'Active';
+    Store.saveEmployees(employees);
+    logAudit('Employee Status Changed', employees[idx].name, employees[idx].id, '-', prev, employees[idx]);
+    toast('Status updated', employees[idx].name);
+    renderView();
+  }));
+  root.querySelectorAll('[data-del-emp]').forEach(b=>b.addEventListener('click', ()=>{
+    requireAdminPin(()=>{
+      confirmDelete('Delete Employee', 'This will permanently remove this employee record (attendance history is kept).', ()=>{
+        const e = getEmployee(b.dataset.delEmp);
+        Store.saveEmployees(Store.employees().filter(x=>x.id!==b.dataset.delEmp));
+        logAudit('Employee Deleted', e?e.name:'-', b.dataset.delEmp, 'Deleted by admin', e, null);
+        toast('Employee deleted');
+        renderView();
+      });
+    });
+  }));
+
+  // ---- Payroll ----
+  const payEmployee = document.getElementById('payEmployee');
+  if(payEmployee) payEmployee.addEventListener('change', ()=>{ State.payrollEmployeeId = payEmployee.value; renderView(); });
+  const payMonth = document.getElementById('payMonth');
+  if(payMonth) payMonth.addEventListener('change', ()=>{ State.payrollMonth = Number(payMonth.value); renderView(); });
+  const payYear = document.getElementById('payYear');
+  if(payYear) payYear.addEventListener('change', ()=>{ State.payrollYear = Number(payYear.value); renderView(); });
+  const genPayslipBtn = document.getElementById('genPayslipBtn');
+  if(genPayslipBtn) genPayslipBtn.addEventListener('click', ()=>{
+    State.payrollEmployeeId = document.getElementById('payEmployee').value;
+    generatePayslip();
+  });
+
+  // ---- Calendar ----
+  const calEmployee = document.getElementById('calEmployee');
+  if(calEmployee) calEmployee.addEventListener('change', ()=>{ State.calEmployeeId = calEmployee.value; renderView(); });
+  const calPrev = document.getElementById('calPrev');
+  if(calPrev) calPrev.addEventListener('click', ()=>{ State.calMonth--; if(State.calMonth<0){State.calMonth=11;State.calYear--;} renderView(); });
+  const calNext = document.getElementById('calNext');
+  if(calNext) calNext.addEventListener('click', ()=>{ State.calMonth++; if(State.calMonth>11){State.calMonth=0;State.calYear++;} renderView(); });
+  root.querySelectorAll('[data-cal-day]').forEach(c=>c.addEventListener('click', ()=>{
+    const iso = c.dataset.calDay;
+    const recs = Store.attendance().filter(r=>r.date===iso && (State.calEmployeeId==='all' || r.employeeId===State.calEmployeeId));
+    if(recs.length) viewRecordModal(recs[0]);
+    else toast(fmtDateLong(iso), 'No attendance record for this date.');
+  }));
+  const addHolBtn = document.getElementById('addHolBtn');
+  if(addHolBtn) addHolBtn.addEventListener('click', ()=>{
+    const name = document.getElementById('holName').value.trim();
+    const date = document.getElementById('holDate').value;
+    const type = document.getElementById('holType').value;
+    if(!name || !date){ toast('Holiday name and date are required.', '', 'err'); return; }
+    const list = Store.holidays(); list.push({id:uid('HOL'), name, date, type}); Store.saveHolidays(list);
+    toast('Holiday added', name);
+    renderView();
+  });
+  root.querySelectorAll('[data-del-hol]').forEach(b=>b.addEventListener('click', ()=>{
+    Store.saveHolidays(Store.holidays().filter(h=>h.id!==b.dataset.delHol));
+    renderView();
+  }));
+
+  // ---- Leave ----
+  const addLeaveBtn = document.getElementById('addLeaveBtn');
+  if(addLeaveBtn) addLeaveBtn.addEventListener('click', ()=>{
+    const employeeId = document.getElementById('lvEmp').value;
+    if(!employeeId){ toast('No employees available.', '', 'err'); return; }
+    const rec = {
+      id:uid('LV'), employeeId, date:document.getElementById('lvDate').value,
+      type:document.getElementById('lvType').value, reason:document.getElementById('lvReason').value.trim(),
+      status:document.getElementById('lvStatus').value
+    };
+    const list = Store.leave(); list.push(rec); Store.saveLeave(list);
+    logAudit('Leave Requested', getEmployee(employeeId)?getEmployee(employeeId).name:'-', rec.id, rec.reason, null, rec);
+    toast('Leave request added');
+    renderView();
+  });
+  root.querySelectorAll('[data-del-leave]').forEach(b=>b.addEventListener('click', ()=>{
+    Store.saveLeave(Store.leave().filter(l=>l.id!==b.dataset.delLeave));
+    renderView();
+  }));
+
+  // ---- Audit ----
+  const auditSearch = document.getElementById('auditSearch');
+  if(auditSearch) auditSearch.addEventListener('input', ()=>{
+    const q = auditSearch.value.toLowerCase();
+    const list = Store.audit().filter(l=>[l.action,l.employee,l.recordId,l.reason].join(' ').toLowerCase().includes(q));
+    document.getElementById('auditTableWrap').innerHTML = renderAuditTable(list);
+  });
+
+  // ---- Settings ----
+  root.querySelectorAll('[data-dow]').forEach(p=>p.addEventListener('click', ()=>{ p.classList.toggle('on'); }));
+  const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+  if(saveSettingsBtn) saveSettingsBtn.addEventListener('click', ()=>{
+    requireAdminPin(()=>{
+      const prev = Store.settings();
+      const s = {
+        regularTimeIn:document.getElementById('sRegIn').value,
+        regularTimeOut:document.getElementById('sRegOut').value,
+        earliestTimeIn:document.getElementById('sEarliest').value,
+        earlyArrivalCutoff:document.getElementById('sCutoff').value,
+        latestTimeOut:document.getElementById('sLatest').value,
+        breakMode:document.getElementById('sBreakMode').value,
+        breakMinutes:Number(document.getElementById('sBreak').value)||0,
+        paidWorkingMinutes:Number(document.getElementById('sPaidMin').value)||480,
+        dailySalary:Number(document.getElementById('sSalary').value)||0,
+        otMultiplier:Number(document.getElementById('sOtMult').value)||1.25,
+        workdays:Array.from(document.querySelectorAll('[data-dow].on')).map(p=>Number(p.dataset.dow))
+      };
+      Store.saveSettings(s);
+      const newPin = document.getElementById('sNewPin').value.trim();
+      if(newPin){ const app = Store.app(); app.adminPin = newPin; Store.saveApp(app); toast('Admin PIN updated'); }
+      logAudit('Payroll Rules Changed', '-', '-', 'Settings updated', prev, s);
+      toast('Settings saved');
+      renderView();
+    });
+  });
+  root.querySelectorAll('[data-theme-btn]').forEach(b=>b.addEventListener('click', ()=>setTheme(b.dataset.themeBtn)));
+
+  const exportBackupBtn = document.getElementById('exportBackupBtn');
+  if(exportBackupBtn) exportBackupBtn.addEventListener('click', exportBackup);
+  const importBackupBtn = document.getElementById('importBackupBtn');
+  const importFileInput = document.getElementById('importFileInput');
+  if(importBackupBtn) importBackupBtn.addEventListener('click', ()=>{
+    requireAdminPin(()=> importFileInput.click());
+  });
+  if(importFileInput) importFileInput.addEventListener('change', ()=>{
+    if(importFileInput.files[0]) importBackup(importFileInput.files[0]);
+    importFileInput.value = '';
+  });
+  const loadDemoBtn = document.getElementById('loadDemoBtn');
+  if(loadDemoBtn) loadDemoBtn.addEventListener('click', loadDemoData);
+  const removeDemoBtn = document.getElementById('removeDemoBtn');
+  if(removeDemoBtn) removeDemoBtn.addEventListener('click', ()=>requireAdminPin(removeDemoData));
+  const clearAllBtn = document.getElementById('clearAllBtn');
+  if(clearAllBtn) clearAllBtn.addEventListener('click', ()=>{
+    requireAdminPin(()=>{
+      confirmDelete('Clear All Data', 'WARNING: This will permanently delete all local attendance, employee, payroll, and audit data. This cannot be undone.', ()=>{
+        Object.values(KEYS).forEach(k=>localStorage.removeItem(k));
+        toast('All data cleared');
+        location.reload();
+      });
+    });
+  });
+
+  // live work timer tick (attendance view only)
+  if(State.view==='attendance'){
+    State.liveWorkTimer = setInterval(tickLiveWork, 1000);
+  }
+}
+function refreshAttTable(){
+  const wrap = document.querySelector('#viewRoot .card .table-wrap, #viewRoot .card .empty-state');
+  // find the attendance records card specifically (2nd card in attendance view)
+  const cards = document.querySelectorAll('#viewRoot .card');
+  const target = cards[cards.length-1];
+  const container = target.querySelector('.table-wrap, .empty-state');
+  const html = renderFilteredAttendanceTable();
+  if(container) container.outerHTML = html; else target.insertAdjacentHTML('beforeend', html);
+  bindViewEvents();
+}
+
+/* ============================================================
+   24. INITIAL DATA SEEDING (preloaded employee + historical attendance)
+   ============================================================ */
+function seedInitialData(){
+  const app = Store.app();
+  if(app.seeded) return;
+  const settings = Store.settings();
+
+  const employees = Store.employees();
+  const seedEmp = {
+    id: uid('EMP'),
+    name: 'Employee Name — Edit Required',
+    employeeId: 'EMP-001',
+    photo: EMPLOYEE_SEED_PHOTO,
+    position: 'Position — Edit Required',
+    department: 'Department — Edit Required',
+    pin:'', passkeys:[],
+    status:'Active', dateRegistered: HISTORICAL_SEED[0].date, demo:false
+  };
+  employees.push(seedEmp);
+  Store.saveEmployees(employees);
+
+  const all = Store.attendance();
+  HISTORICAL_SEED.forEach(h=>{
+    const [ih, im] = h.rawIn.split(':').map(Number);
+    const [oh, om] = h.rawOut.split(':').map(Number);
+    const dIn = new Date(h.date+'T00:00:00'); dIn.setHours(ih, im, 0, 0);
+    const dOut = new Date(h.date+'T00:00:00'); dOut.setHours(oh, om, 0, 0);
+    const evalIn = Engine.evaluateTimeIn(dIn, settings);
+    const evalOut = Engine.evaluateTimeOut(dOut, settings);
+    const rec = {
+      id: uid('ATT'), employeeId: seedEmp.id, employeeName: seedEmp.name, employeeCode: seedEmp.employeeId,
+      date: h.date, rawTimeIn: evalIn.rawStr, officialTimeIn: evalIn.officialStr, inStatus: evalIn.inStatus, flaggedIn: evalIn.outsideEarliest,
+      timeOut:true, rawTimeOut: evalOut.rawStr, officialTimeOut: evalOut.officialStr, outStatus: evalOut.outStatus, flaggedOut: evalOut.flagged,
+      overtimeMinutesRaw: evalOut.otMinutes, breakMinutes: settings.breakMinutes,
+      notes:'', demo:false, historical:true,
+      createdAt: dIn.toISOString(), updatedAt: dOut.toISOString()
+    };
+    const totals = Engine.computeRecordTotals(rec, settings);
+    Object.assign(rec, totals);
+    rec.status = Engine.finalStatus(rec);
+    all.push(rec);
+  });
+  Store.saveAttendance(all);
+
+  app.seeded = true;
+  Store.saveApp(app);
+}
+
+/* ============================================================
+   25. ADMIN LOGIN
+   ============================================================ */
+function renderLogin(){
+  const el = document.getElementById('welcomeScreen');
+  el.innerHTML = `
+  <div class="welcome">
+    <div class="welcome-card">
+      <div class="welcome-mark">${logoMark()}</div>
+      <h1 style="margin-bottom:2px">Employee Attendance System</h1>
+      <p style="margin-bottom:22px">Admin Login</p>
+      <div class="field" style="text-align:left"><label>Username / Email</label><input id="loginUser" placeholder="admin@company.com" autocomplete="username"></div>
+      <div class="field" style="text-align:left"><label>Password</label><input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn btn-primary btn-block btn-lg" id="loginBtn">LOGIN</button>
+      <button class="btn btn-block" id="loginBioBtn" style="margin-top:10px">🔒 Use Device Biometric</button>
+      <div class="divider"></div>
+      <p style="margin-bottom:14px">Clocking in for a shift?</p>
+      <button class="btn btn-block" id="employeeModeBtn">👤 Continue as Employee →</button>
+    </div>
+  </div>`;
+  el.classList.remove('hidden');
+
+  document.getElementById('loginBtn').addEventListener('click', async ()=>{
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    const app = Store.app();
+    if(!app.admin){ toast('No administrator account exists yet.', '', 'err'); return; }
+    if(user.toLowerCase() !== app.admin.username.toLowerCase()){ toast('Invalid username or password.', '', 'err'); return; }
+    const ok = await Crypto.verify(pass, app.admin.passwordHash, app.admin.salt);
+    if(!ok){ toast('Invalid username or password.', '', 'err'); return; }
+    logAudit('Admin Login', app.admin.name, '-', 'Password login', null, null);
+    enterApp('admin');
+  });
+
+  document.getElementById('loginBioBtn').addEventListener('click', async ()=>{
+    const app = Store.app();
+    if(!app.admin || !app.admin.passkeys || !app.admin.passkeys.length){
+      toast('No device biometric registered for this admin account.', 'Log in with a password, then register one in Settings.', 'warn'); return;
+    }
+    const available = await WebAuthn.isAvailable();
+    if(!available){ toast('Biometric authentication is unavailable on this device.', '', 'err'); return; }
+    try{
+      await WebAuthn.authenticate(app.admin.passkeys);
+      logAudit('Admin Login', app.admin.name, '-', 'Device biometric login', null, null);
+      enterApp('admin');
+    }catch(e){
+      toast('Biometric verification failed or was cancelled.', '', 'err');
+    }
+  });
+
+  document.getElementById('employeeModeBtn').addEventListener('click', ()=>{
+    State.role = 'employee';
+    enterApp('employee');
+  });
+}
+
+/* ============================================================
+   26. FIRST-RUN SETUP WIZARD (Admin → Attendance Config → Employee → Finish)
+   ============================================================ */
+function setupWizard(step){
+  step = step||1;
+  const s = Store.settings();
+  const employees = Store.employees();
+  const seedEmp = employees[0] || null;
+
+  const dots = active => '<div class="step-dots">'+[1,2,3,4].map(i=>'<div class="step-dot'+(i===active?' active':'')+'"></div>').join('')+'</div>';
+
+  const bodyByStep = {
+    1: `
+      ${dots(1)}
+      <div class="welcome-mark" style="width:52px;height:52px;border-radius:14px">${logoMark()}</div>
+      <h1 style="font-size:19px">Welcome — System Setup</h1>
+      <p style="margin-bottom:18px">Step 1 of 4 — Create the administrator account.</p>
+      <div class="field" style="text-align:left"><label>Admin Name</label><input id="wAdminName" placeholder="Juan Dela Cruz"></div>
+      <div class="field" style="text-align:left"><label>Username / Email</label><input id="wAdminUser" placeholder="admin@company.com"></div>
+      <div class="field" style="text-align:left"><label>Password</label><input id="wAdminPass" type="password" placeholder="At least 6 characters"></div>
+      <div class="field" style="text-align:left"><label>Confirm Password</label><input id="wAdminPass2" type="password" placeholder="Re-enter password"></div>
+    `,
+    2: `
+      ${dots(2)}
+      <h1 style="font-size:19px">Configure Attendance</h1>
+      <p style="margin-bottom:18px">Step 2 of 4 — These rules drive every calculation and can be changed later in Settings.</p>
+      <div class="grid grid-2" style="text-align:left">
+        <div class="field"><label>Regular Time In</label><input id="wRegIn" type="time" value="${s.regularTimeIn}"></div>
+        <div class="field"><label>Regular Time Out</label><input id="wRegOut" type="time" value="${s.regularTimeOut}"></div>
+        <div class="field"><label>Earliest Time In</label><input id="wEarliest" type="time" value="${s.earliestTimeIn}"></div>
+        <div class="field"><label>Latest Time Out</label><input id="wLatest" type="time" value="${s.latestTimeOut}"></div>
+        <div class="field"><label>Break Duration (min)</label><input id="wBreak" type="number" value="${s.breakMinutes}"></div>
+        <div class="field"><label>Daily Salary (₱)</label><input id="wSalary" type="number" value="${s.dailySalary}"></div>
+        <div class="field"><label>Overtime Multiplier</label><input id="wOtMult" type="number" step="0.05" value="${s.otMultiplier}"></div>
+      </div>
+    `,
+    3: `
+      ${dots(3)}
+      <h1 style="font-size:19px">Confirm First Employee</h1>
+      <p style="margin-bottom:16px">Step 3 of 4 — Edit these details now, or update them anytime from Employees.</p>
+      ${seedEmp?`<img src="${seedEmp.photo||''}" alt="" style="width:88px;height:88px;border-radius:16px;object-fit:cover;margin-bottom:14px;border:1px solid var(--border)">`:''}
+      <div class="field" style="text-align:left"><label>Employee Name</label><input id="wEmpName" value="${esc(seedEmp?seedEmp.name:'')}"></div>
+      <div class="field" style="text-align:left"><label>Employee ID</label><input id="wEmpId" value="${esc(seedEmp?seedEmp.employeeId:'')}"></div>
+      <div class="field" style="text-align:left"><label>PIN (optional)</label><input id="wEmpPin" placeholder="4-digit PIN" value="${esc(seedEmp?seedEmp.pin:'')}"></div>
+      <button class="btn btn-block" id="wRegisterBio" type="button" style="margin-top:4px">🔒 Register Device Biometric</button>
+      <div class="help-text" id="wBioStatus"></div>
+    `,
+    4: `
+      ${dots(4)}
+      <div class="success-check" style="margin:0 auto 16px">${successIcon()}</div>
+      <h1 style="font-size:19px">Setup Complete ✓</h1>
+      <p style="margin-bottom:18px">Your administrator account, attendance rules, and first employee are ready to go.</p>
+    `
+  };
+  document.getElementById('welcomeScreen').innerHTML = `<div class="welcome"><div class="welcome-card">${bodyByStep[step]}
+    <div class="welcome-actions" style="margin-top:18px">
+      ${step>1 && step<4 ?'<button class="btn" id="wBack">Back</button>':''}
+      <button class="btn btn-primary" id="wNext">${step<3?'Continue':(step===3?'Continue':'Enter Admin Dashboard')}</button>
+    </div>
+  </div></div>`;
+  if(step>1 && step<4) document.getElementById('wBack').addEventListener('click', ()=>setupWizard(step-1));
+
+  if(step===3){
+    document.getElementById('wRegisterBio').addEventListener('click', async ()=>{
+      const statusEl = document.getElementById('wBioStatus');
+      const available = await WebAuthn.isAvailable();
+      if(!available){ statusEl.textContent = 'Biometric authentication is unavailable on this device. You can use a PIN instead.'; return; }
+      try{
+        const empNow = Store.employees().find(e=>e.id===seedEmp.id);
+        const passkey = await WebAuthn.register(empNow);
+        const list = Store.employees();
+        const idx = list.findIndex(e=>e.id===seedEmp.id);
+        list[idx].passkeys = (list[idx].passkeys||[]).concat(passkey);
+        Store.saveEmployees(list);
+        logAudit('Biometric Credential Registered', list[idx].name, list[idx].id, 'Setup wizard', null, {device:passkey.device});
+        statusEl.textContent = '✓ Registered on ' + passkey.device + '.';
+      }catch(e){
+        statusEl.textContent = 'Registration failed or was cancelled.';
+      }
+    });
+  }
+
+  document.getElementById('wNext').addEventListener('click', async ()=>{
+    if(step===1){
+      const name = document.getElementById('wAdminName').value.trim();
+      const user = document.getElementById('wAdminUser').value.trim();
+      const pass = document.getElementById('wAdminPass').value;
+      const pass2 = document.getElementById('wAdminPass2').value;
+      if(!name || !user || !pass){ toast('Please complete all administrator fields.', '', 'err'); return; }
+      if(pass.length<6){ toast('Password must be at least 6 characters.', '', 'err'); return; }
+      if(pass!==pass2){ toast('Passwords do not match.', '', 'err'); return; }
+      const {hash, salt} = await Crypto.hash(pass);
+      const app = Store.app();
+      app.admin = {name, username:user, passwordHash:hash, salt, passkeys:[]};
+      Store.saveApp(app);
+      setupWizard(2);
+    } else if(step===2){
+      const s2 = Store.settings();
+      s2.regularTimeIn = document.getElementById('wRegIn').value || s2.regularTimeIn;
+      s2.regularTimeOut = document.getElementById('wRegOut').value || s2.regularTimeOut;
+      s2.earliestTimeIn = document.getElementById('wEarliest').value || s2.earliestTimeIn;
+      s2.latestTimeOut = document.getElementById('wLatest').value || s2.latestTimeOut;
+      s2.breakMinutes = Number(document.getElementById('wBreak').value)||s2.breakMinutes;
+      s2.dailySalary = Number(document.getElementById('wSalary').value)||s2.dailySalary;
+      s2.otMultiplier = Number(document.getElementById('wOtMult').value)||s2.otMultiplier;
+      Store.saveSettings(s2);
+      setupWizard(3);
+    } else if(step===3){
+      if(seedEmp){
+        const list = Store.employees();
+        const idx = list.findIndex(e=>e.id===seedEmp.id);
+        const prev = Object.assign({}, list[idx]);
+        list[idx].name = document.getElementById('wEmpName').value.trim() || list[idx].name;
+        list[idx].employeeId = document.getElementById('wEmpId').value.trim() || list[idx].employeeId;
+        list[idx].pin = document.getElementById('wEmpPin').value.trim();
+        Store.saveEmployees(list);
+        logAudit('Employee Modified', list[idx].name, list[idx].id, 'Setup wizard', prev, list[idx]);
+        // keep attendance records' cached name/code in sync
+        const all = Store.attendance();
+        all.forEach(r=>{ if(r.employeeId===list[idx].id){ r.employeeName=list[idx].name; r.employeeCode=list[idx].employeeId; } });
+        Store.saveAttendance(all);
+      }
+      setupWizard(4);
+    } else {
+      const app2 = Store.app();
+      app2.setupDone = true;
+      Store.saveApp(app2);
+      enterApp('admin');
+    }
+  });
+}
+
+/* ============================================================
+   27. ENTER APP / LOGOUT
+   ============================================================ */
+function enterApp(role){
+  State.role = role;
+  document.getElementById('welcomeScreen').classList.add('hidden');
+  document.getElementById('welcomeScreen').innerHTML = '';
+  document.getElementById('appRoot').classList.remove('hidden');
+  const app = Store.app();
+  State.selectedEmployeeId = app.lastEmployeeId || null;
+  setView(role==='admin' ? 'dashboard' : 'attendance');
+}
+function logout(){
+  State.role = null;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('appRoot').classList.add('hidden');
+  renderLogin();
+}
+
+/* ============================================================
+   28. BOOT
+   ============================================================ */
+function boot(){
+  applyTheme();
+  seedInitialData();
+  const app = Store.app();
+  if(!app.setupDone || !app.admin){
+    setupWizard(1);
+  } else {
+    document.getElementById('appRoot').classList.add('hidden');
+    renderLogin();
+  }
+  clearInterval(State.clockTimer);
+  State.clockTimer = setInterval(tickClock, 1000);
+}
+
+document.getElementById('menuBtn').addEventListener('click', ()=>document.getElementById('sidebar').classList.toggle('open'));
+
+boot();
+})();
+</script>
+</body>
+</html>
