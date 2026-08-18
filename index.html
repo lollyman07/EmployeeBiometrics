@@ -348,6 +348,7 @@ tbody tr:hover{background:var(--surface-2)}
   .term-actions .btn{width:100%}
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -444,6 +445,528 @@ const DEFAULT_APP = {
   lastEmployeeId:null
 };
 
+/* ============================================================
+   1A. SUPABASE CLOUD STORE
+   Hybrid migration layer: the existing synchronous Store API remains
+   intact for the current UI, while every save is synchronized to
+   Supabase in the background. This lets the existing application be
+   migrated without rewriting every screen at once.
+   ============================================================ */
+const SAVED_CLOUD_CONFIG = (()=> {
+  try { return JSON.parse(localStorage.getItem('supabaseConfig') || '{}'); }
+  catch(e){ return {}; }
+})();
+const SUPABASE_URL = SAVED_CLOUD_CONFIG.url || 'https://wcwhkcgzpybsojbikxrj.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = SAVED_CLOUD_CONFIG.key || 'sb_publishable_TEbpnwe5khRdjJN2xM6DWQ_E6SlaDPV';
+const CLOUD_ENABLED =
+  !!(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY) &&
+  !SUPABASE_URL.includes('YOUR_SUPABASE_') &&
+  !SUPABASE_PUBLISHABLE_KEY.includes('YOUR_SUPABASE_');
+
+const supabaseClient = CLOUD_ENABLED && window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth:{ persistSession:true, autoRefreshToken:true, detectSessionInUrl:true, experimental:{ passkey:true } }
+    })
+  : null;
+
+const AUTH_STATE = {
+  user:null,
+  profile:null,
+  role:null,
+  employeeId:null,
+  ready:false
+};
+
+async function loadAuthProfile(user){
+  if(!supabaseClient || !user) return null;
+  const { data, error } = await supabaseClient
+    .from('user_profiles')
+    .select('id,email,full_name,role,employee_id')
+    .eq('id', user.id)
+    .maybeSingle();
+  if(error) throw error;
+  AUTH_STATE.user = user;
+  AUTH_STATE.profile = data || null;
+  AUTH_STATE.role = data?.role || null;
+  AUTH_STATE.employeeId = data?.employee_id || null;
+  State.role = AUTH_STATE.role;
+  State.sessionEmployeeId = AUTH_STATE.employeeId;
+  State.selectedEmployeeId = AUTH_STATE.employeeId || State.selectedEmployeeId;
+  return data;
+}
+
+async function refreshAuthState(){
+  if(!supabaseClient) return null;
+  const { data, error } = await supabaseClient.auth.getSession();
+  if(error) throw error;
+  if(!data.session){
+    AUTH_STATE.user = AUTH_STATE.profile = null;
+    AUTH_STATE.role = AUTH_STATE.employeeId = null;
+    AUTH_STATE.ready = true;
+    return null;
+  }
+  const profile = await loadAuthProfile(data.session.user);
+  AUTH_STATE.ready = true;
+  return profile;
+}
+
+async function signInWithPasskeyCloud(){
+  if(!supabaseClient?.auth?.signInWithPasskey) throw new Error('Passkey sign-in is not available. Enable Passkeys in Supabase and use the latest HTTPS-hosted app.');
+  const {data,error}=await supabaseClient.auth.signInWithPasskey();
+  if(error) throw error;
+  const profile=await loadAuthProfile(data.user);
+  if(!profile) throw new Error('Your passkey account has no user profile.');
+  enterApp(profile.role);
+  toast('Biometric login successful',profile.full_name||profile.email,'ok');
+}
+async function registerCurrentPasskey(){
+  if(!supabaseClient?.auth?.registerPasskey) throw new Error('Passkeys are not available. Enable Passkeys in Supabase and use HTTPS.');
+  const {data,error}=await supabaseClient.auth.registerPasskey();
+  if(error) throw error;
+  toast('Passkey registered','You can now use fingerprint, Face ID, Windows Hello, or your device passkey to sign in.','ok');
+}
+async function verifyAttendanceWithPasskey(){
+  const emp=getEmployee(State.selectedEmployeeId);
+  if(!emp){toast('Select an employee first.','','err');return;}
+  try{
+    if(!supabaseClient?.auth?.signInWithPasskey) throw new Error('Passkey is not enabled in this Supabase project.');
+    const {data,error}=await supabaseClient.auth.signInWithPasskey();
+    if(error) throw error;
+    const profile=await loadAuthProfile(data.user);
+    if(profile?.role!=='employee' || String(profile.employee_id)!==String(emp.employeeId)){
+      throw new Error('This biometric/passkey belongs to a different employee.');
+    }
+    State.verified=true;
+    toast('Identity Verified',emp.name,'ok');
+    renderView();
+  }catch(e){toast('Biometric verification failed',e.message||'Use your 4-digit PIN instead.','err');}
+}
+
+async function signOutCloud(){
+  if(supabaseClient){
+    const { error } = await supabaseClient.auth.signOut();
+    if(error) console.warn('Supabase sign out:', error.message);
+  }
+  AUTH_STATE.user = AUTH_STATE.profile = null;
+  AUTH_STATE.role = AUTH_STATE.employeeId = null;
+  State.role = null;
+  State.sessionEmployeeId = null;
+}
+
+async function signInCloud(email,password){
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if(error) throw error;
+  await loadAuthProfile(data.user);
+  AUTH_STATE.ready = true;
+  return AUTH_STATE.profile;
+}
+
+async function signUpCloud(email,password,fullName,employeeCode,pin){
+  if(!supabaseClient) throw new Error('Supabase is not configured.');
+
+  // The Auth trigger creates user_profiles using the real auth.users.id.
+  // For employees, employee ID + PIN are passed as signup metadata so the
+  // database can securely validate and link the employee before/without a session.
+  const metadata = {
+    full_name: fullName || ''
+  };
+  if(employeeCode) metadata.employee_id = employeeCode;
+  if(pin) metadata.employee_pin = pin;
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options:{ data: metadata }
+  });
+  if(error) throw error;
+
+  // Supabase may require email confirmation. In that case there is no session
+  // yet, but the Auth user/profile trigger has still completed successfully.
+  if(!data.session){
+    return {
+      user:data.user || null,
+      profile:null,
+      needsConfirmation:true
+    };
+  }
+
+  const profile = await loadAuthProfile(data.user);
+  if(!profile) throw new Error('Authentication succeeded, but the user profile was not created. Run the updated Supabase SQL setup.');
+  return profile;
+}
+
+function requireRole(role){
+  if(AUTH_STATE.role!==role){
+    toast('Access denied','This account does not have permission for this area.','err');
+    return false;
+  }
+  return true;
+}
+
+const CLOUD_STORE_TABLE = 'attendance_store';
+const CLOUD_STORE_KEYS = {
+  employees:'employees',
+  attendance:'attendance',
+  settings:'settings',
+  holidays:'holidays',
+  leave:'leave',
+  audit:'audit',
+  app:'app'
+};
+
+let cloudSyncState = {
+  configured:CLOUD_ENABLED,
+  online:false,
+  syncing:false,
+  lastSync:null,
+  error:null
+};
+
+async function cloudSet(storeKey, payload){
+  if(!supabaseClient) return false;
+  if(AUTH_STATE.role !== 'admin') return false;
+
+  const { error } = await supabaseClient
+    .from(CLOUD_STORE_TABLE)
+    .upsert({
+      store_key:storeKey,
+      payload:payload,
+      updated_at:new Date().toISOString()
+    }, { onConflict:'store_key' });
+
+  if(error){
+    cloudSyncState.error = error.message;
+    cloudSyncState.online = false;
+    throw error;
+  }
+
+  cloudSyncState.lastSync = new Date().toISOString();
+  cloudSyncState.online = true;
+  cloudSyncState.error = null;
+  return true;
+}
+
+async function cloudPullAll(){
+  if(!supabaseClient) return {ok:false, reason:'not-configured'};
+
+  cloudSyncState.syncing = true;
+  try{
+    const { data, error } = await supabaseClient
+      .from(CLOUD_STORE_TABLE)
+      .select('store_key,payload,updated_at');
+
+    if(error) throw error;
+
+    const rows = data || [];
+    for(const row of rows){
+      const key = CLOUD_STORE_KEYS[row.store_key];
+      if(!key) continue;
+      if(row.payload !== null && row.payload !== undefined){
+        localStorage.setItem(KEYS[key], JSON.stringify(row.payload));
+      }
+    }
+
+    cloudSyncState.online = true;
+    cloudSyncState.lastSync = new Date().toISOString();
+    cloudSyncState.error = null;
+    return {ok:true, rows:rows.length};
+  }catch(e){
+    cloudSyncState.online = false;
+    cloudSyncState.error = e.message || String(e);
+    return {ok:false, reason:e.message || String(e)};
+  }finally{
+    cloudSyncState.syncing = false;
+  }
+}
+
+async function cloudPullEmployeeContext(){
+  if(!supabaseClient || AUTH_STATE.role!=='employee' || !AUTH_STATE.employeeId) return {ok:false};
+  // Employee profile/attendance is intentionally loaded through a security-definer RPC
+  // in the SQL below, so an employee never receives the administrator's full Store.
+  try{
+    const { data, error } = await supabaseClient.rpc('get_employee_context');
+    if(error) throw error;
+    if(data?.employee){
+      const current=Store.employees().filter(e=>e.employeeId!==AUTH_STATE.employeeId);
+      current.push(data.employee);
+      Store.set(KEYS.employees,current);
+    }
+    if(Array.isArray(data?.attendance)) Store.set(KEYS.attendance,data.attendance);
+    return {ok:true};
+  }catch(e){
+    console.warn('Employee cloud context failed:',e.message);
+    return {ok:false,reason:e.message};
+  }
+}
+
+async function cloudPushAll(){
+  if(!supabaseClient) return {ok:false, reason:'not-configured'};
+
+  cloudSyncState.syncing = true;
+  try{
+    for(const storeKey of Object.keys(CLOUD_STORE_KEYS)){
+      const localKey = KEYS[CLOUD_STORE_KEYS[storeKey]];
+      let value = null;
+      try{
+        value = JSON.parse(localStorage.getItem(localKey) || 'null');
+      }catch(e){}
+      if(value !== null) await cloudSet(storeKey, value);
+    }
+
+    cloudSyncState.online = true;
+    cloudSyncState.lastSync = new Date().toISOString();
+    cloudSyncState.error = null;
+    return {ok:true};
+  }catch(e){
+    cloudSyncState.online = false;
+    cloudSyncState.error = e.message || String(e);
+    return {ok:false, reason:e.message || String(e)};
+  }finally{
+    cloudSyncState.syncing = false;
+  }
+}
+
+async function cloudMigrateLocalToRemote(){
+  if(!supabaseClient){
+    toast('Cloud backend is not configured','Enter the Supabase URL and Publishable Key in Settings.','warn');
+    return false;
+  }
+  const result = await cloudPushAll();
+  if(result.ok){
+    toast('Cloud migration complete','Current local data was uploaded to Supabase.','ok');
+    return true;
+  }
+  toast('Cloud migration failed',result.reason || 'Check the Supabase table and policies.','err');
+  return false;
+}
+
+async function cloudRefreshFromRemote(){
+  if(!supabaseClient){
+    toast('Cloud backend is not configured','The app is currently using local browser storage.','warn');
+    return false;
+  }
+  const result = await cloudPullAll();
+  if(result.ok){
+    toast('Cloud data refreshed','Reloading with the latest cloud data.','ok');
+    setTimeout(()=>location.reload(),400);
+    return true;
+  }
+  toast('Cloud refresh failed',result.reason || 'Check your Supabase table and policies.','err');
+  return false;
+}
+
+async function cloudClearAll(){
+  if(!supabaseClient) return;
+  const { error } = await supabaseClient
+    .from(CLOUD_STORE_TABLE)
+    .delete()
+    .neq('store_key','__never_match__');
+  if(error) throw error;
+}
+
+/*
+  SUPABASE SQL — run once in Supabase SQL Editor BEFORE using cloud auth:
+
+  -- 1) Profiles / roles
+  create table if not exists public.user_profiles (
+    id uuid primary key references auth.users(id) on delete cascade,
+    email text,
+    full_name text not null default '',
+    role text not null default 'employee' check (role in ('admin','employee')),
+    employee_id text,
+    created_at timestamptz not null default now()
+  );
+
+  -- First registered account becomes admin; later accounts become employees.
+  -- Employee signups are linked to the existing employee record by Employee ID + PIN.
+  -- IMPORTANT: id is always new.id from auth.users; never insert NULL here.
+  create or replace function public.handle_new_user()
+  returns trigger
+  language plpgsql
+  security definer
+  set search_path = public
+  as $$
+  declare
+    first_user boolean;
+    requested_employee_id text;
+    requested_pin text;
+    matched_employee boolean := false;
+  begin
+    select not exists(select 1 from public.user_profiles) into first_user;
+
+    requested_employee_id := nullif(trim(coalesce(new.raw_user_meta_data->>'employee_id','')), '');
+    requested_pin := nullif(trim(coalesce(new.raw_user_meta_data->>'employee_pin','')), '');
+
+    -- If this is an employee signup, require a valid existing employee ID + PIN.
+    if not first_user and requested_employee_id is not null then
+      select exists(
+        select 1
+        from jsonb_array_elements(
+          coalesce(
+            (select payload from public.attendance_store where store_key='employees'),
+            '[]'::jsonb
+          )
+        ) e
+        where e->>'employeeId' = requested_employee_id
+          and coalesce(e->>'pin','') = coalesce(requested_pin,'')
+          and coalesce(e->>'status','Active') = 'Active'
+      ) into matched_employee;
+
+      if not matched_employee then
+        raise exception 'Employee ID or PIN is invalid, or the employee has not been uploaded to the cloud yet.';
+      end if;
+    end if;
+
+    insert into public.user_profiles (
+      id,
+      email,
+      full_name,
+      role,
+      employee_id
+    )
+    values (
+      new.id,
+      new.email,
+      coalesce(new.raw_user_meta_data->>'full_name',''),
+      case when first_user then 'admin' else 'employee' end,
+      case when first_user then null else requested_employee_id end
+    );
+
+    return new;
+  end;
+  $$;
+
+  drop trigger if exists on_auth_user_created on auth.users;
+  create trigger on_auth_user_created
+    after insert on auth.users
+    for each row execute procedure public.handle_new_user();
+
+  alter table public.user_profiles enable row level security;
+
+  drop policy if exists "users read own profile" on public.user_profiles;
+  create policy "users read own profile" on public.user_profiles
+    for select to authenticated using (id = auth.uid());
+
+  drop policy if exists "users update own profile" on public.user_profiles;
+  create policy "users update own profile" on public.user_profiles
+    for update to authenticated
+    using (id = auth.uid()) with check (id = auth.uid());
+
+  -- IMPORTANT: If you previously ran an older version of this SQL, run this
+  -- updated trigger/function again so employee signup uses new.id and links
+  -- employee_id from signup metadata. Existing admin profiles are preserved.
+
+  -- 2) Existing application cloud store.
+  create table if not exists public.attendance_store (
+    store_key text primary key,
+    payload jsonb not null,
+    updated_at timestamptz not null default now()
+  );
+  alter table public.attendance_store enable row level security;
+
+  -- Only administrators can read/write the shared admin store.
+  drop policy if exists "admin read attendance store" on public.attendance_store;
+  create policy "admin read attendance store" on public.attendance_store
+    for select to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'));
+
+  drop policy if exists "admin insert attendance store" on public.attendance_store;
+  create policy "admin insert attendance store" on public.attendance_store
+    for insert to authenticated
+    with check (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'));
+
+  drop policy if exists "admin update attendance store" on public.attendance_store;
+  create policy "admin update attendance store" on public.attendance_store
+    for update to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'))
+    with check (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'));
+
+  drop policy if exists "admin delete attendance store" on public.attendance_store;
+  create policy "admin delete attendance store" on public.attendance_store
+    for delete to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'));
+
+  -- 3) Employee attendance table used for employee self-service.
+  create table if not exists public.employee_attendance (
+    id text primary key,
+    employee_id text not null,
+    payload jsonb not null,
+    updated_at timestamptz not null default now()
+  );
+  alter table public.employee_attendance enable row level security;
+
+  drop policy if exists "admin all employee attendance" on public.employee_attendance;
+  create policy "admin all employee attendance" on public.employee_attendance
+    for all to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'))
+    with check (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='admin'));
+
+  drop policy if exists "employee read own attendance" on public.employee_attendance;
+  create policy "employee read own attendance" on public.employee_attendance
+    for select to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='employee' and p.employee_id=employee_attendance.employee_id));
+
+  drop policy if exists "employee insert own attendance" on public.employee_attendance;
+  create policy "employee insert own attendance" on public.employee_attendance
+    for insert to authenticated
+    with check (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='employee' and p.employee_id=employee_attendance.employee_id));
+
+  drop policy if exists "employee update own attendance" on public.employee_attendance;
+  create policy "employee update own attendance" on public.employee_attendance
+    for update to authenticated
+    using (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='employee' and p.employee_id=employee_attendance.employee_id))
+    with check (exists(select 1 from public.user_profiles p where p.id=auth.uid() and p.role='employee' and p.employee_id=employee_attendance.employee_id));
+
+  -- 4) Secure employee-account linking by employee ID + PIN.
+  create or replace function public.link_employee_account(p_employee_id text, p_pin text)
+  returns public.user_profiles
+  language plpgsql
+  security definer set search_path = public
+  as $$
+  declare emp public.user_profiles; target_exists boolean;
+  begin
+    if not exists(select 1 from auth.users where id=auth.uid()) then
+      raise exception 'Not authenticated';
+    end if;
+    select exists(
+      select 1 from jsonb_array_elements(coalesce((select payload from public.attendance_store where store_key='employees'),'[]'::jsonb)) e
+      where e->>'employeeId'=p_employee_id and coalesce(e->>'pin','')=p_pin and coalesce(e->>'status','Active')='Active'
+    ) into target_exists;
+    if not target_exists then raise exception 'Employee ID or PIN is invalid'; end if;
+    update public.user_profiles
+      set role='employee', employee_id=p_employee_id
+      where id=auth.uid();
+    select * into emp from public.user_profiles where id=auth.uid();
+    return emp;
+  end;
+  $$;
+  grant execute on function public.link_employee_account(text,text) to authenticated;
+
+  create or replace function public.get_employee_context()
+  returns jsonb
+  language plpgsql
+  security definer set search_path = public
+  as $$
+  declare emp_code text; emp jsonb; att jsonb;
+  begin
+    select employee_id into emp_code from public.user_profiles where id=auth.uid() and role='employee';
+    if emp_code is null then raise exception 'Employee account is not linked'; end if;
+    select e into emp
+    from jsonb_array_elements(coalesce((select payload from public.attendance_store where store_key='employees'),'[]'::jsonb)) e
+    where e->>'employeeId'=emp_code and coalesce(e->>'status','Active')='Active' limit 1;
+    select coalesce(jsonb_agg(a.payload order by (a.payload->>'date') desc), '[]'::jsonb) into att
+    from public.employee_attendance a where a.employee_id=emp_code;
+    return jsonb_build_object('employee',emp,'attendance',att);
+  end;
+  $$;
+  grant execute on function public.get_employee_context() to authenticated;
+
+  -- NOTE: This keeps the existing Store-based UI working while making
+  -- authentication and role enforcement cloud-backed. Employee records
+  -- remain in the existing Store for now; the next migration can normalize
+  -- employees/payroll/leave/audit into separate tables.
+*/
+
 const Store = {
   get(key, fallback){
     try{
@@ -452,23 +975,48 @@ const Store = {
       return JSON.parse(raw);
     }catch(e){ return fallback; }
   },
+
   set(key, val){
     localStorage.setItem(key, JSON.stringify(val));
   },
+
+  setAndCloud(key, val, cloudKey){
+    this.set(key, val);
+    if(supabaseClient){
+      cloudSet(cloudKey, val).catch(err=>{
+        console.warn('Cloud sync failed:', err);
+      });
+    }
+  },
+
   employees(){ return this.get(KEYS.employees, []); },
-  saveEmployees(v){ this.set(KEYS.employees, v); },
+  saveEmployees(v){ this.setAndCloud(KEYS.employees, v, 'employees'); },
+
   attendance(){ return this.get(KEYS.attendance, []); },
-  saveAttendance(v){ this.set(KEYS.attendance, v); },
+  saveAttendance(v){
+    this.set(KEYS.attendance, v);
+    if(supabaseClient && AUTH_STATE.role==='admin'){
+      this.setAndCloud(KEYS.attendance, v, 'attendance');
+    }else if(supabaseClient && AUTH_STATE.role==='employee' && AUTH_STATE.employeeId){
+      const mine = (v||[]).filter(r=>r.employeeCode===AUTH_STATE.employeeId || r.employeeId===State.selectedEmployeeId);
+      Promise.all(mine.map(r=>supabaseClient.from('employee_attendance').upsert({id:String(r.id),employee_id:AUTH_STATE.employeeId,payload:r,updated_at:new Date().toISOString()},{onConflict:'id'}))).catch(e=>console.warn('Employee attendance cloud sync failed:',e));
+    }
+  },
+
   settings(){ return Object.assign({}, DEFAULT_SETTINGS, this.get(KEYS.settings, {})); },
-  saveSettings(v){ this.set(KEYS.settings, v); },
+  saveSettings(v){ this.setAndCloud(KEYS.settings, v, 'settings'); },
+
   holidays(){ return this.get(KEYS.holidays, []); },
-  saveHolidays(v){ this.set(KEYS.holidays, v); },
+  saveHolidays(v){ this.setAndCloud(KEYS.holidays, v, 'holidays'); },
+
   leave(){ return this.get(KEYS.leave, []); },
-  saveLeave(v){ this.set(KEYS.leave, v); },
+  saveLeave(v){ this.setAndCloud(KEYS.leave, v, 'leave'); },
+
   audit(){ return this.get(KEYS.audit, []); },
-  saveAudit(v){ this.set(KEYS.audit, v); },
+  saveAudit(v){ this.setAndCloud(KEYS.audit, v, 'audit'); },
+
   app(){ return Object.assign({}, DEFAULT_APP, this.get(KEYS.app, {})); },
-  saveApp(v){ this.set(KEYS.app, v); }
+  saveApp(v){ this.setAndCloud(KEYS.app, v, 'app'); }
 };
 
 function logAudit(action, employeeName, recordId, reason, prev, next){
@@ -1055,7 +1603,7 @@ function renderTerminalWidget(){
     ${emp ? `
     <div style="max-width:320px;margin:10px 0 4px">
       <label>Employee PIN ${emp.pin?'(required)':'(not set)'}</label>
-      <input type="password" inputmode="numeric" id="empPinInput" placeholder="${emp.pin?'Enter 4-digit PIN':'No PIN configured'}" maxlength="8" ${emp.pin?'':'disabled'}>
+      <input type="password" inputmode="numeric" id="empPinInput" placeholder="${emp.pin?'Enter 4-digit PIN':'No PIN configured'}" maxlength="4" pattern="[0-9]*" autocomplete="one-time-code" ${emp.pin?'':'disabled'}>
     </div>
     <div class="term-mid">
       <div class="scanner" id="scannerEl">
@@ -1066,7 +1614,7 @@ function renderTerminalWidget(){
       <div class="term-status">
         <div class="status-line" id="scanStatusLine">${State.verified ? 'IDENTITY VERIFIED' : 'AWAITING VERIFICATION'}</div>
         <div class="status-value" id="scanStatusValue">
-          ${State.verified ? statusBadge(rec ? Engine.finalStatus(rec) : 'Working') : '<span style="color:var(--text-faint)">Tap Verify Identity to continue</span>'}
+          ${State.verified ? statusBadge(rec ? Engine.finalStatus(rec) : 'Working') : '<span style="color:var(--text-faint)">Enter 4-digit PIN to verify automatically</span>'}
         </div>
         ${rec ? `
         <div class="status-meta">
@@ -1075,15 +1623,15 @@ function renderTerminalWidget(){
           <div><span class="k">Raw Out</span><span class="v">${rec.rawTimeOut?timeStrTo12(rec.rawTimeOut):'--:--'}</span></div>
           <div><span class="k">Hours</span><span class="v" id="liveWorkTime">${rec.timeOut? minutesToHM(rec.regularMinutes+rec.overtimeMinutes) : '00:00:00'}</span></div>
         </div>` : ''}
-        ${!State.verified ? '<button class="btn btn-primary btn-sm" id="verifyBtn" style="margin-top:12px">Verify Identity</button>' : ''}
+        ${!State.verified ? '<div class="row-gap" style="margin-top:12px"><button class="btn btn-primary btn-sm" id="verifyBtn">Verify Identity</button><button class="btn btn-sm" id="biometricVerifyBtn">🔐 Use Fingerprint / Passkey</button></div>' : ''}
       </div>
     </div>
     <div class="term-actions">
       <button class="btn btn-primary btn-lg" id="timeInBtn" ${(!State.verified || openRec || (rec && rec.timeOut)) ? 'disabled' : ''}>⏱ TIME IN</button>
       <button class="btn btn-danger btn-lg" id="timeOutBtn" ${(!State.verified || !openRec) ? 'disabled' : ''}>⏹ TIME OUT</button>
     </div>
-    <div class="empty-scan-msg">Fingerprint scan is a visual simulation only — no biometric data is captured or stored.</div>
-    ` : `<div class="empty-scan-msg" style="margin-top:14px">Choose an employee above, then verify identity to enable Time In / Time Out.</div>`}
+    <div class="empty-scan-msg">PIN verification is automatic after 4 digits. Device fingerprint/Face ID/Windows Hello is available through secure passkeys when the app is hosted over HTTPS and Passkeys are enabled in Supabase.</div>
+    ` : `<div class="empty-scan-msg" style="margin-top:14px">Choose an employee above, then enter the 4-digit PIN. Verification starts automatically. You can also use device biometrics/passkey when configured.</div>`}
   </div>
   `;
 }
@@ -1096,7 +1644,7 @@ function renderAttendance(){
   <div class="card">
     <div class="row" style="margin-bottom:14px">
       <div class="section-title" style="margin-bottom:0">Attendance Records</div>
-      <button class="btn btn-sm" id="exportCsvBtn">⬇ Export CSV</button>
+      <div class="row-gap"><button class="btn btn-sm" id="addAttendanceBtn">＋ Add Attendance</button><button class="btn btn-sm" id="importCsvBtn">⬆ Import CSV</button><input type="file" id="importCsvFile" accept=".csv,text/csv" class="hidden"><button class="btn btn-sm" id="exportCsvBtn">⬇ Export CSV</button></div>
     </div>
     <div class="row-gap" style="margin-bottom:14px">
       <div class="search-input"><input type="text" id="attSearch" placeholder="Search attendance (name, ID, status)..." value="${esc(State.attFilters.q)}"></div>
@@ -1436,6 +1984,11 @@ function employeeFormModal(existing){
 }
 
 /* ============================================================
+   13. ATTENDANCE CORRECTION + ADMIN ADD/IMPORT
+   ============================================================ */
+/* Admin can edit date/time and import/export CSV.
+   CSV import updates matching records by RecordID or EmployeeID+Date+RawIn. */
+/* ============================================================
    13. ATTENDANCE CORRECTION
    ============================================================ */
 function correctionModal(record){
@@ -1444,10 +1997,11 @@ function correctionModal(record){
     <div class="modal-body">
       <div class="warn-box">Raw timestamps are always preserved. Corrections are recorded in the audit log.</div>
       <div class="kv"><span class="k">Employee</span><span class="v">${esc(record.employeeName)}</span></div>
-      <div class="kv"><span class="k">Date</span><span class="v">${fmtDateShort(record.date)}</span></div>
-      <div class="kv"><span class="k">Raw In / Raw Out</span><span class="v">${record.rawTimeIn?timeStrTo12(record.rawTimeIn):'—'} / ${record.rawTimeOut?timeStrTo12(record.rawTimeOut):'—'}</span></div>
+      <div class="field"><label>Date</label><input type="date" id="cDate" value="${record.date||''}"></div>
       <div class="divider"></div>
+      <div class="field"><label>Raw Time In</label><input type="time" id="cRawTimeIn" value="${record.rawTimeIn||''}"></div>
       <div class="field"><label>Official Time In</label><input type="time" id="cTimeIn" value="${record.officialTimeIn||''}"></div>
+      <div class="field"><label>Raw Time Out</label><input type="time" id="cRawTimeOut" value="${record.rawTimeOut||''}"></div>
       <div class="field"><label>Official Time Out</label><input type="time" id="cTimeOut" value="${record.officialTimeOut||''}"></div>
       <div class="field"><label>Break (minutes)</label><input type="number" id="cBreak" value="${record.breakMinutes!==undefined?record.breakMinutes:60}" min="0"></div>
       <div class="field"><label>Status</label>
@@ -1467,16 +2021,27 @@ function correctionModal(record){
       const idx = all.findIndex(r=>r.id===record.id);
       const prev = Object.assign({}, all[idx]);
       const rec = all[idx];
-      rec.officialTimeIn = document.getElementById('cTimeIn').value || rec.officialTimeIn;
-      rec.officialTimeOut = document.getElementById('cTimeOut').value || rec.officialTimeOut;
+      const newDate = document.getElementById('cDate').value;
+      if(!newDate){ toast('Date is required.','','err'); return; }
+      rec.date = newDate;
+      rec.rawTimeIn = document.getElementById('cRawTimeIn').value || null;
+      rec.officialTimeIn = document.getElementById('cTimeIn').value || rec.rawTimeIn || null;
+      rec.rawTimeOut = document.getElementById('cRawTimeOut').value || null;
+      rec.officialTimeOut = document.getElementById('cTimeOut').value || rec.rawTimeOut || null;
       const breakMins = Number(document.getElementById('cBreak').value)||0;
       rec.timeOut = !!rec.officialTimeOut;
       if(rec.timeOut){
-        const regOutM = timeStrToMinutes(settings.regularTimeOut);
         const outM = timeStrToMinutes(rec.officialTimeOut);
+        const regOutM = timeStrToMinutes(settings.regularTimeOut);
         rec.overtimeMinutesRaw = Math.max(outM-regOutM, 0);
+        rec.outStatus = outM < regOutM ? 'Incomplete' : (outM <= timeStrToMinutes(settings.latestTimeOut) ? (outM>regOutM?'Overtime':'On Time') : 'Flagged');
+        rec.flaggedOut = outM > timeStrToMinutes(settings.latestTimeOut);
         const totals = Engine.computeRecordTotals(rec, settings, breakMins);
         Object.assign(rec, totals);
+      } else {
+        rec.overtimeMinutesRaw = 0;
+        rec.breakMinutes = breakMins;
+        rec.regularMinutes = 0; rec.overtimeMinutes = 0; rec.regularPay = 0; rec.overtimePay = 0; rec.totalPay = 0;
       }
       rec.status = document.getElementById('cStatus').value;
       rec.notes = document.getElementById('cNotes').value.trim();
@@ -1800,6 +2365,38 @@ function renderSettings(){
   </div>
 
   <div class="card" style="margin-top:16px">
+    <div class="section-title">☁️ Cloud Backend (Supabase)</div>
+    <div class="section-desc">
+      Connect this application to Supabase. The existing Store remains available as a local cache,
+      while changes are synchronized to the cloud.
+    </div>
+    <div class="field">
+      <label>Supabase Project URL</label>
+      <input id="supabaseUrlInput" value="${esc(SUPABASE_URL.includes('YOUR_SUPABASE_')?'':SUPABASE_URL)}" placeholder="https://your-project.supabase.co">
+    </div>
+    <div class="field">
+      <label>Supabase Publishable Key</label>
+      <input id="supabaseKeyInput" value="${esc(SUPABASE_PUBLISHABLE_KEY.includes('YOUR_SUPABASE_')?'':SUPABASE_PUBLISHABLE_KEY)}" placeholder="sb_publishable_...">
+    </div>
+    <div class="row-gap" style="margin-bottom:12px">
+      <span class="badge ${CLOUD_ENABLED && cloudSyncState.online ? 'badge-present' : 'badge-rest'}">
+        <span class="badge-dot"></span>
+        ${CLOUD_ENABLED ? (cloudSyncState.online ? 'Cloud Connected' : 'Cloud Configured') : 'Local Mode'}
+      </span>
+      ${cloudSyncState.error ? '<span class="help-text">Error: '+esc(cloudSyncState.error)+'</span>' : ''}
+    </div>
+    <div class="row-gap">
+      <button class="btn btn-primary" id="saveCloudConfigBtn">Save Cloud Configuration</button>
+      <button class="btn" id="cloudUploadBtn">⬆ Upload Local Data</button>
+      <button class="btn" id="cloudRefreshBtn">⬇ Refresh From Cloud</button><button class="btn" id="registerPasskeyBtn">🔐 Register Fingerprint / Passkey</button>
+    </div>
+    <div class="help-text" style="margin-top:12px">
+      Use only the Supabase <b>Publishable</b> key here. Never put a secret/service-role key in browser code.
+      For device biometrics, enable Supabase Authentication → Passkeys and host this app over HTTPS. The browser/device handles the fingerprint, Face ID, Windows Hello, or passkey; the app never receives your biometric data.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
     <div class="section-title">Backup &amp; Data</div>
     <div class="section-desc">Export or restore all employees, attendance, payroll settings, holidays, leave, and audit logs.</div>
     <div class="row-gap" style="margin-bottom:14px">
@@ -1915,13 +2512,128 @@ function importBackup(file){
   };
   reader.readAsText(file);
 }
+function csvParseLine(line){
+  const out=[]; let cur='', quoted=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){
+      if(quoted && line[i+1]==='"'){ cur+='"'; i++; }
+      else quoted=!quoted;
+    }else if(ch===',' && !quoted){ out.push(cur); cur=''; }
+    else cur+=ch;
+  }
+  out.push(cur); return out;
+}
+function parseCSV(text){
+  const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(l=>l.trim()!=='');
+  if(!lines.length) return [];
+  const headers=csvParseLine(lines[0]).map(h=>h.trim().toLowerCase());
+  return lines.slice(1).map(line=>{
+    const vals=csvParseLine(line); const obj={};
+    headers.forEach((h,i)=>obj[h]=(vals[i]??'').trim()); return obj;
+  });
+}
+function firstCsv(row, names){ for(const n of names){ if(row[n]!==undefined && row[n]!== '') return row[n]; } return ''; }
+function normalizeImportedTime(v){
+  if(!v) return null;
+  v=v.trim();
+  if(/^\d{1,2}:\d{2}(:\d{2})?$/.test(v)) return v.slice(0,5);
+  const m=v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if(m){ let h=Number(m[1]), min=m[2], ap=m[3].toUpperCase(); if(ap==='PM'&&h<12)h+=12; if(ap==='AM'&&h===12)h=0; return pad(h)+':'+min; }
+  const d=new Date(v); return isNaN(d)?null:pad(d.getHours())+':'+pad(d.getMinutes());
+}
+function normalizeImportedDate(v){
+  if(!v) return null; v=v.trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+  const d=new Date(v); if(isNaN(d)) return null; return fmtDateISO(d);
+}
+function importCsv(file){
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const rows=parseCSV(reader.result);
+      if(!rows.length) throw new Error('The CSV contains no attendance rows.');
+      const employees=Store.employees();
+      const attendance=Store.attendance();
+      let added=0, updated=0, skipped=0, employeesAdded=0;
+      const settings=Store.settings();
+      rows.forEach((row, i)=>{
+        const employeeCode=firstCsv(row,['employeeid','employee_id','employee code','employeecode','id']).trim();
+        const employeeName=firstCsv(row,['employee','employeename','name','full name']).trim();
+        const date=normalizeImportedDate(firstCsv(row,['date','attendance date','day']));
+        if(!employeeCode || !date){ skipped++; return; }
+        let emp=employees.find(e=>String(e.employeeId)===employeeCode);
+        if(!emp && employeeName){
+          emp={id:uid('EMP'),name:employeeName,employeeId:employeeCode,pin:'',status:'Active',dateRegistered:date,demo:false,imported:true};
+          employees.push(emp); employeesAdded++;
+        }
+        if(!emp){ skipped++; return; }
+        const rawIn=normalizeImportedTime(firstCsv(row,['rawin','raw time in','time in','raw_time_in']));
+        const officialIn=normalizeImportedTime(firstCsv(row,['officialin','official time in','official_time_in'])) || rawIn;
+        const rawOut=normalizeImportedTime(firstCsv(row,['rawout','raw time out','time out','raw_time_out']));
+        const officialOut=normalizeImportedTime(firstCsv(row,['officialout','official time out','official_time_out'])) || rawOut;
+        const breakMinutes=Number(firstCsv(row,['breakminutes','break minutes','break']))||settings.breakMinutes;
+        const existingId=firstCsv(row,['recordid','record id','attendanceid','attendance id','id']).trim();
+        let idx=-1;
+        if(existingId) idx=attendance.findIndex(r=>String(r.id)===existingId);
+        if(idx<0) idx=attendance.findIndex(r=>r.employeeCode===employeeCode && r.date===date && (r.rawTimeIn||'')===(rawIn||''));
+        const base=idx>=0?Object.assign({},attendance[idx]):{id:existingId||uid('ATT'),createdAt:new Date().toISOString()};
+        Object.assign(base,{employeeId:emp.id,employeeName:employeeName||emp.name,employeeCode,date,rawTimeIn:rawIn,officialTimeIn:officialIn,rawTimeOut:rawOut,officialTimeOut:officialOut,breakMinutes,timeOut:!!officialOut,notes:firstCsv(row,['notes','note'])||base.notes||'',demo:false,updatedAt:new Date().toISOString(),imported:true});
+        const status=firstCsv(row,['status']);
+        if(officialOut){
+          const outM=timeStrToMinutes(officialOut), regOut=timeStrToMinutes(settings.regularTimeOut);
+          base.overtimeMinutesRaw=Number(firstCsv(row,['overtimeminutes','overtime minutes','otminutes'])) || Math.max(outM-regOut,0);
+          base.outStatus=outM>settings.latestTimeOut? 'Flagged' : (outM>regOut?'Overtime':(outM<regOut?'Incomplete':'On Time'));
+          base.flaggedOut=base.outStatus==='Flagged';
+          if(officialIn) Object.assign(base,Engine.computeRecordTotals(base,settings,breakMinutes));
+        } else { base.overtimeMinutesRaw=0; base.regularMinutes=0; base.overtimeMinutes=0; base.regularPay=0; base.overtimePay=0; base.totalPay=0; }
+        base.inStatus=firstCsv(row,['instatus','in status']) || base.inStatus || 'On Time';
+        base.flaggedIn=String(firstCsv(row,['flaggedin','flagged in'])).toLowerCase()==='true' || base.flaggedIn || false;
+        base.status=status || Engine.finalStatus(base);
+        if(idx>=0){ attendance[idx]=base; updated++; } else { attendance.push(base); added++; }
+      });
+      Store.saveEmployees(employees); Store.saveAttendance(attendance);
+      logAudit('CSV Attendance Import','-', '-', 'Imported '+added+' new / '+updated+' updated / '+skipped+' skipped rows', null, {added,updated,skipped,employeesAdded});
+      toast('CSV imported successfully', added+' added, '+updated+' updated, '+skipped+' skipped.'+(employeesAdded?' '+employeesAdded+' employee(s) created.':''),'ok');
+      renderView();
+    }catch(e){ toast('CSV import failed',e.message||'Invalid CSV file.','err'); }
+  };
+  reader.readAsText(file);
+}
 function exportCsv(){
-  const recs = Store.attendance();
-  const headers = ['Date','Employee','EmployeeID','RawIn','OfficialIn','RawOut','OfficialOut','BreakMinutes','RegularHours','OvertimeMinutes','RegularPay','OvertimePay','TotalPay','Status','Notes'];
-  const rows = recs.map(r=>[r.date,r.employeeName,r.employeeCode,r.rawTimeIn,r.officialTimeIn,r.rawTimeOut,r.officialTimeOut,r.breakMinutes,((r.regularMinutes||0)/60).toFixed(2),r.overtimeMinutes||0,(r.regularPay||0).toFixed(2),(r.overtimePay||0).toFixed(2),(r.totalPay||0).toFixed(2),r.status,r.notes||'']);
-  const csv = [headers.join(','), ...rows.map(row=>row.map(v=>'"'+String(v===undefined||v===null?'':v).replace(/"/g,'""')+'"').join(','))].join('\n');
-  downloadFile('attendance-export-'+fmtDateISO(new Date())+'.csv', csv, 'text/csv');
-  toast('CSV exported');
+  const recs=Store.attendance();
+  const headers=['RecordID','Date','Employee','EmployeeID','RawIn','OfficialIn','RawOut','OfficialOut','BreakMinutes','RegularHours','OvertimeMinutes','RegularPay','OvertimePay','TotalPay','Status','Notes'];
+  const rows=recs.map(r=>[r.id,r.date,r.employeeName,r.employeeCode,r.rawTimeIn,r.officialTimeIn,r.rawTimeOut,r.officialTimeOut,r.breakMinutes,((r.regularMinutes||0)/60).toFixed(2),r.overtimeMinutes||0,(r.regularPay||0).toFixed(2),(r.overtimePay||0).toFixed(2),(r.totalPay||0).toFixed(2),r.status,r.notes||'']);
+  const csv=[headers.join(','),...rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(','))].join('\n');
+  downloadFile('attendance-export-'+fmtDateISO(new Date())+'.csv',csv,'text/csv'); toast('CSV exported');
+}
+function addAttendanceModal(){
+  const employees=Store.employees().filter(e=>e.status==='Active'); const today=fmtDateISO(new Date());
+  openModal(`<div class="modal-head"><h3>Add Attendance Record</h3><button class="close-x" data-close>×</button></div>
+  <div class="modal-body">
+    <div class="help-text">Admin can manually add a historical or corrected attendance record. The record will appear immediately in Attendance and Payroll.</div>
+    <div class="field"><label>Employee</label><select id="aEmp">${employees.map(e=>'<option value="'+esc(e.id)+'">'+esc(e.name)+' ('+esc(e.employeeId)+')</option>').join('')}</select></div>
+    <div class="field"><label>Date</label><input type="date" id="aDate" value="${today}"></div>
+    <div class="field"><label>Raw Time In</label><input type="time" id="aRawIn"></div>
+    <div class="field"><label>Official Time In</label><input type="time" id="aOfficialIn"></div>
+    <div class="field"><label>Raw Time Out</label><input type="time" id="aRawOut"></div>
+    <div class="field"><label>Official Time Out</label><input type="time" id="aOfficialOut"></div>
+    <div class="field"><label>Break (minutes)</label><input type="number" id="aBreak" value="${Store.settings().breakMinutes}" min="0"></div>
+    <div class="field"><label>Status</label><select id="aStatus">${['Present','Late','Overtime','Incomplete','Flagged','Working','Leave','Rest Day'].map(x=>'<option>'+x+'</option>').join('')}</select></div>
+    <div class="field"><label>Notes</label><textarea id="aNotes" rows="2" placeholder="Reason or historical note"></textarea></div>
+  </div><div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="saveAddedAttendanceBtn">Add Attendance</button></div>`);
+  document.getElementById('saveAddedAttendanceBtn').addEventListener('click',()=>{
+    const emp=getEmployee(document.getElementById('aEmp').value), date=document.getElementById('aDate').value;
+    if(!emp||!date){toast('Employee and date are required.','','err');return;}
+    const rawIn=document.getElementById('aRawIn').value||null, offIn=document.getElementById('aOfficialIn').value||rawIn;
+    const rawOut=document.getElementById('aRawOut').value||null, offOut=document.getElementById('aOfficialOut').value||rawOut;
+    const settings=Store.settings(), breakMins=Number(document.getElementById('aBreak').value)||0;
+    const rec={id:uid('ATT'),employeeId:emp.id,employeeName:emp.name,employeeCode:emp.employeeId,date,rawTimeIn:rawIn,officialTimeIn:offIn,rawTimeOut:rawOut,officialTimeOut:offOut,timeOut:!!offOut,inStatus:'On Time',flaggedIn:false,flaggedOut:false,outStatus:offOut?'On Time':null,overtimeMinutesRaw:offOut?Math.max(timeStrToMinutes(offOut)-timeStrToMinutes(settings.regularTimeOut),0):0,notes:document.getElementById('aNotes').value.trim(),demo:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+    if(offOut && offIn) Object.assign(rec,Engine.computeRecordTotals(rec,settings,breakMins)); else {rec.breakMinutes=breakMins;rec.regularMinutes=0;rec.overtimeMinutes=0;rec.regularPay=0;rec.overtimePay=0;rec.totalPay=0;}
+    rec.status=document.getElementById('aStatus').value || Engine.finalStatus(rec);
+    const all=Store.attendance(); all.push(rec); Store.saveAttendance(all); logAudit('Attendance Added',emp.name,rec.id,'Added manually by admin',null,rec); closeModal(); toast('Attendance added',emp.name); renderView();
+  });
 }
 function downloadFile(filename, content, mime){
   const blob = new Blob([content], {type:mime});
@@ -2010,6 +2722,14 @@ function bindViewEvents(){
   });
   const verifyBtn = document.getElementById('verifyBtn');
   if(verifyBtn) verifyBtn.addEventListener('click', startVerification);
+  const empPinInput = document.getElementById('empPinInput');
+  if(empPinInput) empPinInput.addEventListener('input', ()=>{
+    const emp=getEmployee(State.selectedEmployeeId); if(!emp || !emp.pin) return;
+    const v=empPinInput.value.replace(/\D/g,'').slice(0,4); if(empPinInput.value!==v) empPinInput.value=v;
+    if(v.length===4 && !State.verified) startVerification();
+  });
+  const biometricVerifyBtn=document.getElementById('biometricVerifyBtn');
+  if(biometricVerifyBtn) biometricVerifyBtn.addEventListener('click', verifyAttendanceWithPasskey);
   const timeInBtn = document.getElementById('timeInBtn');
   if(timeInBtn) timeInBtn.addEventListener('click', doTimeIn);
   const timeOutBtn = document.getElementById('timeOutBtn');
@@ -2025,6 +2745,12 @@ function bindViewEvents(){
   if(attFilterMonth) attFilterMonth.addEventListener('change', ()=>{ State.attFilters.month = attFilterMonth.value; refreshAttTable(); });
   const exportCsvBtn = document.getElementById('exportCsvBtn');
   if(exportCsvBtn) exportCsvBtn.addEventListener('click', exportCsv);
+  const importCsvBtn=document.getElementById('importCsvBtn');
+  const importCsvFile=document.getElementById('importCsvFile');
+  if(importCsvBtn && importCsvFile) importCsvBtn.addEventListener('click',()=>importCsvFile.click());
+  if(importCsvFile) importCsvFile.addEventListener('change',()=>{ importCsv(importCsvFile.files[0]); importCsvFile.value=''; });
+  const addAttendanceBtn=document.getElementById('addAttendanceBtn');
+  if(addAttendanceBtn) addAttendanceBtn.addEventListener('click',()=>requireAdminPin(addAttendanceModal));
 
   root.querySelectorAll('[data-view-rec]').forEach(b=>b.addEventListener('click', ()=>{
     const rec = Store.attendance().find(r=>r.id===b.dataset.viewRec); if(rec) viewRecordModal(rec);
@@ -2177,6 +2903,35 @@ function bindViewEvents(){
   });
   root.querySelectorAll('[data-theme-btn]').forEach(b=>b.addEventListener('click', ()=>setTheme(b.dataset.themeBtn)));
 
+  const saveCloudConfigBtn = document.getElementById('saveCloudConfigBtn');
+  if(saveCloudConfigBtn) saveCloudConfigBtn.addEventListener('click', ()=>{
+    const url = (document.getElementById('supabaseUrlInput')?.value || '').trim();
+    const key = (document.getElementById('supabaseKeyInput')?.value || '').trim();
+
+    if(!url || !/^https:\/\/[^\s]+\.supabase\.co(?:\/.*)?$/.test(url)){
+      toast('Invalid Supabase URL','Use the Project URL shown by Supabase, such as https://xxxxx.supabase.co','err');
+      return;
+    }
+    if(!key){
+      toast('Publishable key is required','','err');
+      return;
+    }
+
+    localStorage.setItem('supabaseConfig', JSON.stringify({url, key}));
+    toast('Cloud configuration saved','Reloading and connecting to Supabase...','ok');
+    setTimeout(()=>location.reload(),700);
+  });
+
+  const cloudUploadBtn = document.getElementById('cloudUploadBtn');
+  if(cloudUploadBtn) cloudUploadBtn.addEventListener('click', ()=>{
+    requireAdminPin(()=> cloudMigrateLocalToRemote());
+  });
+
+  const cloudRefreshBtn = document.getElementById('cloudRefreshBtn');
+  if(cloudRefreshBtn) cloudRefreshBtn.addEventListener('click', ()=>{
+    requireAdminPin(()=> cloudRefreshFromRemote());
+  });
+
   const exportBackupBtn = document.getElementById('exportBackupBtn');
   if(exportBackupBtn) exportBackupBtn.addEventListener('click', exportBackup);
   const importBackupBtn = document.getElementById('importBackupBtn');
@@ -2197,8 +2952,11 @@ function bindViewEvents(){
     requireAdminPin(()=>{
       confirmDelete('Clear All Data', 'WARNING: This will permanently delete all local attendance, employee, payroll, and audit data. This cannot be undone.', ()=>{
         Object.values(KEYS).forEach(k=>localStorage.removeItem(k));
-        toast('All data cleared');
-        location.reload();
+        if(supabaseClient){
+          cloudClearAll().catch(e=>console.warn('Cloud clear failed:',e));
+        }
+        toast('Local data cleared','Cloud deletion was requested as well.','warn');
+        setTimeout(()=>location.reload(),500);
       });
     });
   });
@@ -2207,6 +2965,8 @@ function bindViewEvents(){
   if(State.view==='attendance'){
     State.liveWorkTimer = setInterval(tickLiveWork, 1000);
   }
+  const registerPasskeyBtn=document.getElementById('registerPasskeyBtn');
+  if(registerPasskeyBtn) registerPasskeyBtn.addEventListener('click',async()=>{try{await registerCurrentPasskey();}catch(e){toast('Passkey registration failed',e.message||'Use HTTPS and enable Passkeys in Supabase.','err');}});
 }
 function refreshAttTable(){
   const wrap = document.querySelector('#viewRoot .card .table-wrap, #viewRoot .card .empty-state');
@@ -2273,54 +3033,116 @@ function seedInitialData(){
    ============================================================ */
 function renderLogin(){
   const el = document.getElementById('welcomeScreen');
+  const cloudReady = !!supabaseClient;
   el.innerHTML = `
   <div class="welcome">
     <div class="welcome-card">
       <div class="welcome-mark">${logoMark()}</div>
       <h1 style="margin-bottom:2px">Employee Attendance System</h1>
-      <p style="margin-bottom:22px">Admin Login</p>
-      <div class="field" style="text-align:left"><label>Username / Email</label><input id="loginUser" placeholder="admin@company.com" autocomplete="username"></div>
+      <p style="margin-bottom:22px">Secure Cloud Login</p><div class="help-text" style="margin-bottom:12px">Fingerprint/Face ID/Windows Hello uses Supabase Passkeys when enabled. HTTPS is required.</div>
+      ${!cloudReady ? `<div class="warn-box" style="text-align:left;margin-bottom:14px">Supabase is not configured. Open Settings → Cloud Backend and enter your Project URL and Publishable Key.</div>`:''}
+      <div class="field" style="text-align:left"><label>Email</label><input id="loginUser" type="email" placeholder="you@company.com" autocomplete="username"></div>
       <div class="field" style="text-align:left"><label>Password</label><input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
-      <button class="btn btn-primary btn-block btn-lg" id="loginBtn">LOGIN</button>
-      <button class="btn btn-block" id="loginBioBtn" style="margin-top:10px">🔒 Use Device Biometric</button>
+      <button class="btn btn-primary btn-block btn-lg" id="loginBtn" ${cloudReady?'':'disabled'}>LOGIN</button><button class="btn btn-block" id="passkeyLoginBtn" ${cloudReady?'':'disabled'} style="margin-top:8px">🔐 Login with Fingerprint / Passkey</button>
       <div class="divider"></div>
-      <p style="margin-bottom:14px">Clocking in for a shift?</p>
-      <button class="btn btn-block" id="employeeModeBtn">👤 Continue as Employee →</button>
+      <p style="margin-bottom:14px">Employee first-time account?</p>
+      <button class="btn btn-block" id="employeeSignupBtn" ${cloudReady?'':'disabled'}>👤 Create Employee Account</button>
+      <button class="btn btn-block" id="adminSetupBtn" ${cloudReady?'':'disabled'} style="margin-top:8px">⚙ First-Time Administrator Setup</button>
+      <div class="help-text" style="margin-top:12px">Your access level is determined by your Supabase profile role. The first account created through Administrator Setup becomes the admin; later accounts are employees.</div>
     </div>
   </div>`;
   el.classList.remove('hidden');
 
   document.getElementById('loginBtn').addEventListener('click', async ()=>{
-    const user = document.getElementById('loginUser').value.trim();
+    const email = document.getElementById('loginUser').value.trim();
     const pass = document.getElementById('loginPass').value;
-    const app = Store.app();
-    if(!app.admin){ toast('No administrator account exists yet.', '', 'err'); return; }
-    if(user.toLowerCase() !== app.admin.username.toLowerCase()){ toast('Invalid username or password.', '', 'err'); return; }
-    const ok = await Crypto.verify(pass, app.admin.passwordHash, app.admin.salt);
-    if(!ok){ toast('Invalid username or password.', '', 'err'); return; }
-    logAudit('Admin Login', app.admin.name, '-', 'Password login', null, null);
-    enterApp('admin');
-  });
-
-  document.getElementById('loginBioBtn').addEventListener('click', async ()=>{
-    const app = Store.app();
-    if(!app.admin || !app.admin.passkeys || !app.admin.passkeys.length){
-      toast('No device biometric registered for this admin account.', 'Log in with a password, then register one in Settings.', 'warn'); return;
-    }
-    const available = await WebAuthn.isAvailable();
-    if(!available){ toast('Biometric authentication is unavailable on this device.', '', 'err'); return; }
+    if(!email || !pass){ toast('Enter your email and password.','','err'); return; }
     try{
-      await WebAuthn.authenticate(app.admin.passkeys);
-      logAudit('Admin Login', app.admin.name, '-', 'Device biometric login', null, null);
-      enterApp('admin');
+      const profile = await signInCloud(email,pass);
+      if(!profile){ throw new Error('Your account profile has not been created. Run the Supabase setup SQL first.'); }
+      if(profile.role!=='admin' && profile.role!=='employee') throw new Error('Your account has no valid role.');
+      logAudit(profile.role==='admin'?'Admin Login':'Employee Login', profile.full_name || email, '-', 'Supabase Authentication', null, null);
+      enterApp(profile.role);
     }catch(e){
-      toast('Biometric verification failed or was cancelled.', '', 'err');
+      toast('Login failed', e.message || 'Invalid credentials.', 'err');
     }
   });
 
-  document.getElementById('employeeModeBtn').addEventListener('click', ()=>{
-    State.role = 'employee';
-    enterApp('employee');
+  const passkeyLoginBtn=document.getElementById('passkeyLoginBtn');
+  if(passkeyLoginBtn) passkeyLoginBtn.addEventListener('click',async()=>{try{await signInWithPasskeyCloud();}catch(e){toast('Passkey login failed',e.message||'Use email/password instead.','err');}});
+  document.getElementById('employeeSignupBtn').addEventListener('click', ()=>employeeSignupModal());
+  document.getElementById('adminSetupBtn').addEventListener('click', ()=>adminSignupModal());
+}
+
+function adminSignupModal(){
+  openModal(`
+    <div class="modal-head"><h3>First-Time Administrator Setup</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="warn-box">Only use this for the very first account in a new Supabase project. The database trigger makes the first registered profile an administrator.</div>
+      <div class="field"><label>Administrator Name</label><input id="adName" placeholder="Juan Dela Cruz"></div>
+      <div class="field"><label>Email</label><input id="adEmail" type="email" placeholder="admin@company.com"></div>
+      <div class="field"><label>Password</label><input id="adPass" type="password" minlength="8" placeholder="At least 8 characters"></div>
+      <div class="field"><label>Confirm Password</label><input id="adPass2" type="password" minlength="8" placeholder="Repeat password"></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="createAdminBtn">Create Administrator</button></div>
+  `);
+  document.getElementById('createAdminBtn').addEventListener('click', async ()=>{
+    const name=document.getElementById('adName').value.trim();
+    const email=document.getElementById('adEmail').value.trim();
+    const pass=document.getElementById('adPass').value;
+    const pass2=document.getElementById('adPass2').value;
+    if(!name||!email||!pass||!pass2){ toast('Complete all fields.','','err'); return; }
+    if(pass.length<8){ toast('Password must be at least 8 characters.','','err'); return; }
+    if(pass!==pass2){ toast('Passwords do not match.','','err'); return; }
+    try{
+      const result=await signUpCloud(email,pass,name);
+      closeModal();
+      if(result?.needsConfirmation){
+        toast('Administrator account created','Check your email, confirm the account, then return to the login screen.','ok');
+        renderLogin();
+        return;
+      }
+      if(result?.role!=='admin') throw new Error('An account already exists in this project. This setup action is only for the first administrator.');
+      seedInitialData();
+      enterApp('admin');
+      toast('Administrator account created','You are now signed in as administrator.','ok');
+    }catch(e){ toast('Administrator setup failed',e.message||'Unable to create the administrator account.','err'); }
+  });
+}
+
+function employeeSignupModal(){
+  openModal(`
+    <div class="modal-head"><h3>Create Employee Account</h3><button class="close-x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="help-text" style="margin-bottom:14px">Use the Employee ID and PIN already registered by your administrator. Your account is linked securely to that employee record in Supabase. If the administrator has not uploaded the employee list to the cloud yet, account creation will be rejected.</div>
+      <div class="field"><label>Full Name</label><input id="suName" placeholder="Juan Dela Cruz"></div>
+      <div class="field"><label>Email</label><input id="suEmail" type="email" placeholder="juan@company.com" autocomplete="email"></div>
+      <div class="field"><label>Password</label><input id="suPass" type="password" minlength="8" placeholder="At least 8 characters"></div>
+      <div class="field"><label>Employee ID</label><input id="suEmpId" placeholder="EMP-004"></div>
+      <div class="field"><label>Employee PIN</label><input id="suPin" type="password" maxlength="8" placeholder="PIN assigned by admin"></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" id="createEmployeeAccountBtn">Create Account</button></div>
+  `);
+  document.getElementById('createEmployeeAccountBtn').addEventListener('click', async ()=>{
+    const name=document.getElementById('suName').value.trim();
+    const email=document.getElementById('suEmail').value.trim();
+    const pass=document.getElementById('suPass').value;
+    const empId=document.getElementById('suEmpId').value.trim();
+    const pin=document.getElementById('suPin').value.trim();
+    if(!name||!email||!pass||!empId||!pin){ toast('Complete all fields.','','err'); return; }
+    if(pass.length<8){ toast('Password must be at least 8 characters.','','err'); return; }
+    try{
+      const result = await signUpCloud(email,pass,name,empId,pin);
+      closeModal();
+      if(result?.needsConfirmation){
+        toast('Employee account created','Check your email, confirm the account, then return here and log in.','ok');
+      }else{
+        toast('Employee account created','Your account is linked to the employee record. You can now log in.','ok');
+      }
+      renderLogin();
+    }catch(e){
+      toast('Account creation failed',e.message||'Unable to create account.','err');
+    }
   });
 }
 
@@ -2465,11 +3287,16 @@ function enterApp(role){
   document.getElementById('welcomeScreen').innerHTML = '';
   document.getElementById('appRoot').classList.remove('hidden');
   const app = Store.app();
-  State.selectedEmployeeId = app.lastEmployeeId || null;
+  if(role==='employee' && AUTH_STATE.employeeId){
+    const mine = Store.employees().find(e=>e.employeeId===AUTH_STATE.employeeId);
+    State.selectedEmployeeId = mine ? mine.id : null;
+  }else{
+    State.selectedEmployeeId = app.lastEmployeeId || null;
+  }
   setView(role==='admin' ? 'dashboard' : 'attendance');
 }
-function logout(){
-  State.role = null;
+async function logout(){
+  await signOutCloud();
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('appRoot').classList.add('hidden');
   renderLogin();
@@ -2478,18 +3305,61 @@ function logout(){
 /* ============================================================
    28. BOOT
    ============================================================ */
-function boot(){
+async function boot(){
   applyTheme();
-  seedInitialData();
-  const app = Store.app();
-  if(!app.setupDone || !app.admin){
-    setupWizard(1);
-  } else {
-    document.getElementById('appRoot').classList.add('hidden');
-    renderLogin();
+
+  if(supabaseClient){
+    try{
+      const profile = await refreshAuthState();
+      if(profile){
+        // Admins can see the full shared Store; employees should only get
+        // their own records. The existing UI is retained while auth is cloud-backed.
+        if(profile.role==='admin'){
+          await cloudPullAll();
+          seedInitialData();
+          enterApp('admin');
+        }else if(profile.role==='employee'){
+          await cloudPullEmployeeContext();
+          const emps=Store.employees();
+          const mine=emps.find(e=>e.employeeId===profile.employee_id);
+          State.selectedEmployeeId=mine?mine.id:null;
+          enterApp('employee');
+        }else{
+          renderLogin();
+        }
+      }else{
+        renderLogin();
+      }
+    }catch(e){
+      console.warn('Supabase auth initialization failed:',e);
+      renderLogin();
+      setTimeout(()=>toast('Cloud authentication unavailable',e.message||'Check your Supabase configuration and SQL setup.','err'),250);
+    }
+  }else{
+    // Local fallback is kept only so the file can still be opened for testing.
+    seedInitialData();
+    const app = Store.app();
+    if(!app.setupDone || !app.admin){
+      setupWizard(1);
+    }else{
+      renderLogin();
+    }
   }
+
   clearInterval(State.clockTimer);
   State.clockTimer = setInterval(tickClock, 1000);
+
+  if(supabaseClient){
+    supabaseClient.auth.onAuthStateChange(async (_event, session)=>{
+      if(session?.user){
+        try{ await loadAuthProfile(session.user); }catch(e){ console.warn('Profile refresh failed',e); }
+      }else{
+        AUTH_STATE.user=AUTH_STATE.profile=null;
+        AUTH_STATE.role=AUTH_STATE.employeeId=null;
+        State.role=null;
+      }
+    });
+  }
 }
 
 document.getElementById('menuBtn').addEventListener('click', ()=>document.getElementById('sidebar').classList.toggle('open'));
