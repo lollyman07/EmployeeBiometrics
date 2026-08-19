@@ -1,1 +1,8 @@
-
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.employeeattendance.app",
+        "sha256_cert_fingerprints": ["1E:37:4A:FF:EB:CF:26:E2:51:D3:A7:35:90:F1:C3:6A:C1:38:51:40:AB:D9:0C:AC:98:D0:CE:39:CC:2E:CE:E5"]
+      }
+    }]
