@@ -3,14 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#A10F1C">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <title>Biometric-Style Attendance Terminal</title>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#A10F1C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -351,8 +348,7 @@ tbody tr:hover{background:var(--surface-2)}
   .term-actions .btn{width:100%}
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.105.0"></script>
-  <link rel="manifest" href="/manifest.json">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1231,7 +1227,70 @@ const Crypto = {
   }
 };
 
+/* ============================================================
+   3C. WEBAUTHN — real device biometric / passkey authentication
+   Uses the browser's native navigator.credentials API so the device's
+   own secure authenticator (Face ID, Touch ID, Windows Hello, Android
+   fingerprint, etc.) performs the actual verification. This app never
+   sees or stores a fingerprint/face — only the opaque credential
+   response the browser returns.
 
+   IMPORTANT LIMITATION: WebAuthn requires a "secure context" (HTTPS,
+   or http://localhost). Opening this file directly as file:// will
+   generally NOT satisfy that requirement in most browsers, so
+   isAvailable() will correctly report biometrics as unavailable and
+   the app falls back to PIN — exactly as the spec requires. Host this
+   file over HTTPS (see Settings → Installable App Experience) to use
+   real device biometrics.
+   ============================================================ */
+const WebAuthn = {
+  async isAvailable(){
+    if(!window.PublicKeyCredential) return false;
+    try{
+      if(PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable){
+        return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      }
+      return true;
+    }catch(e){ return false; }
+  },
+  randomChallenge(){ return crypto.getRandomValues(new Uint8Array(32)); },
+  deviceLabel(){
+    const ua = navigator.userAgent;
+    if(/iphone/i.test(ua)) return '📱 iPhone';
+    if(/ipad/i.test(ua)) return '📱 iPad';
+    if(/android/i.test(ua)) return '📱 Android Device';
+    if(/mac os/i.test(ua)) return '💻 Mac';
+    if(/windows/i.test(ua)) return '💻 Windows PC';
+    return '💻 This Device';
+  },
+  async register(employee){
+    const challenge = this.randomChallenge();
+    const userId = new TextEncoder().encode(employee.id);
+    const cred = await navigator.credentials.create({
+      publicKey:{
+        challenge,
+        rp:{ name:'AttendX Biometric Terminal' },
+        user:{ id:userId, name:employee.employeeId, displayName:employee.name },
+        pubKeyCredParams:[{type:'public-key', alg:-7}, {type:'public-key', alg:-257}],
+        authenticatorSelection:{ userVerification:'required', authenticatorAttachment:'platform' },
+        timeout:60000,
+        attestation:'none'
+      }
+    });
+    if(!cred) throw new Error('No credential returned');
+    const idB64 = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
+    return { credentialId:idB64, device:this.deviceLabel(), registeredAt:new Date().toISOString() };
+  },
+  async authenticate(passkeys){
+    const challenge = this.randomChallenge();
+    const allow = (passkeys||[]).map(p=>({ type:'public-key', id:Uint8Array.from(atob(p.credentialId), c=>c.charCodeAt(0)) }));
+    const assertion = await navigator.credentials.get({
+      publicKey:{ challenge, allowCredentials:allow.length?allow:undefined, userVerification:'required', timeout:60000 }
+    });
+    if(!assertion) throw new Error('No assertion returned');
+    return true;
+  }
+};
 
 /* ============================================================
    4. APPLICATION STATE
